@@ -1,5 +1,9 @@
 package za.co.wethinkcode.core;
 
+import java.io.IOException;
+
+import za.co.wethinkcode.model.Broker;
+
 /**
  * Hello world!
  *
@@ -8,6 +12,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        try {
+            Broker broker = new Broker();
+        }catch(IOException e) {}
     }
 }

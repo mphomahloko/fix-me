@@ -1,13 +1,12 @@
 package za.co.wethinkcode.core;
 
+import za.co.wethinkcode.module.Router;
 /**
- * Hello world!
+ * Router App
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+    public static void main( String[] args ) {
+		Router router = new Router();
     }
 }

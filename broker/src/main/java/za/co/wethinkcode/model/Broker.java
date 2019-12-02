@@ -9,5 +9,11 @@ public class Broker {
         Socket socket =  new Socket("127.0.0.1", 5000);
         Scanner in = new Scanner(socket.getInputStream());
         System.out.println("Server response " + in.nextLine());
+        try {
+            in.close();
+            socket.close();
+        }catch(IOException e) {
+            System.out.println("Market disconnected!");
+        }
     }
 }

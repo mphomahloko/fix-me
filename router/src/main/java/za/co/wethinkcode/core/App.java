@@ -1,7 +1,9 @@
 package za.co.wethinkcode.core;
 
-import za.co.wethinkcode.module.Router;
+import za.co.wethinkcode.model.Router;
+
 import java.io.IOException;
+
 /**
  * Router App
  *

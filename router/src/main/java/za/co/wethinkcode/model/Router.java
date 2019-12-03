@@ -6,55 +6,104 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import java.util.Set;
+import java.util.Scanner;
+import java.util.HashSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+
 /**
  * Router class
  *
  */
 public class Router {
+    private static Set<Integer> _ids = new HashSet<>();
+    private static int _posibleID = 100000;
     public Router() throws IOException {
-        Thread brokers = new Thread(new ManageBroker());
+        System.out.println("Router is Running");
+        Thread brokers = new Thread(new ManagesBroker());
         brokers.start();
+        System.out.println("Router is Running");
 
-        Thread markets = new Thread(new ManageMarket());
+        Thread markets = new Thread(new ManagesMarket());
         markets.start();
     }
-    
+
+/* ********************************* Broker ************************************** */ 
+    private static class ManagesBroker implements Runnable{
+        @Override
+        public void run() {
+            ExecutorService pool = Executors.newFixedThreadPool(20);
+            try(ServerSocket listener = new ServerSocket(5000)) {
+                while (true) {
+                    pool.execute(new ManageBroker(listener.accept()));
+                }
+            }catch(IOException e) {}
+        }
+    }
+
     private static class ManageBroker implements Runnable {
-        ManageBroker() {
+        private int _id;
+        private Socket _socket;
+        private Scanner _in;
+        private PrintWriter _out;
+
+        public ManageBroker(Socket socket) {
+            this._socket = socket;
+        }
+
+        @Override public void run() {
+            try{
+                _in = new Scanner(_socket.getInputStream());
+                _out = new PrintWriter(_socket.getOutputStream(), true);
+                synchronized (_ids) {
+                    if (!_ids.contains(_posibleID += 1)) {
+                        _ids.add(_id = _posibleID - 1);
+                    }
+                }
+                _out.println("your broker id is: " + _id);
+            }catch(IOException e) {}
+        }
+    }
+
+/* ********************************* Market ***************************************** */
+    private static class ManagesMarket implements Runnable {
+        public ManagesMarket() {
             return ;
         }
 
         @Override
         public void run() {
-            System.out.println("connected to port 5000");
-            try(ServerSocket listener = new ServerSocket(5000)) {
-                System.out.println("Router is running...");
+            ExecutorService pool = Executors.newFixedThreadPool(20);
+            try(ServerSocket listener = new ServerSocket(5001)) {
                 while (true) {
-                    try(Socket socket = listener.accept()) {
-                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                        out.println("You connected successfully...");
-                        System.out.println("Broker");
-                    }catch(IOException e) {}
+                    pool.execute(new ManageMarket(listener.accept()));
                 }
             }catch(IOException e) {}
         }
     }
 
     private static class ManageMarket implements Runnable {
-        ManageMarket() {
+        private int _id;
+        private Socket _socket;
+        private Scanner _in;
+        private PrintWriter _out;
+
+        public ManageMarket(Socket socket) {
+            this._socket = socket;
             return ;
         }
+
         @Override public void run() {
-            System.out.println("connected to port 5001");
-            try(ServerSocket listener = new ServerSocket(5001)) {
-                System.out.println("Router is running...");
-                while (true) {
-                    try(Socket socket = listener.accept()) {
-                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                        out.println("You connected successfully...");
-                        System.out.println("Market");
-                    }catch(IOException e) {}
+            try{
+                _in = new Scanner(_socket.getInputStream());
+                _out = new PrintWriter(_socket.getOutputStream(), true);
+                synchronized (_ids) {
+                    if (!_ids.contains(_posibleID += 1)) {
+                        _ids.add(_id = _posibleID - 1);
+                    }
                 }
+                _out.println("your market id is: " + _id);
             }catch(IOException e) {}
         }
     }

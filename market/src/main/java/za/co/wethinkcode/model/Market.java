@@ -19,8 +19,8 @@ public class Market {
         try {
             in.close();
             socket.close();
-        }catch(IOException e) {
             System.out.println("Market disconnected!");
+        }catch(IOException e) {
         }
     }
 }

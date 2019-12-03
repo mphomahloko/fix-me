@@ -20,10 +20,10 @@ public class Router {
     private static Set<Integer> _ids = new HashSet<>();
     private static int _posibleID = 100000;
     public Router() throws IOException {
-        System.out.println("Router is Running");
+        System.out.println("Router is running...");
+
         Thread brokers = new Thread(new ManagesBroker());
         brokers.start();
-        System.out.println("Router is Running");
 
         Thread markets = new Thread(new ManagesMarket());
         markets.start();
@@ -66,7 +66,7 @@ public class Router {
         }
     }
 
-/* ********************************* Market ***************************************** */
+/* ********************************* Market ************************************** */
     private static class ManagesMarket implements Runnable {
         public ManagesMarket() {
             return ;

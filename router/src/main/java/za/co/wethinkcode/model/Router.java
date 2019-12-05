@@ -1,10 +1,10 @@
 package za.co.wethinkcode.model;
 
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.IOException;
 
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.ServerSocket;
 
 import java.util.Set;
 import java.util.Scanner;

@@ -61,11 +61,8 @@ public class Router {
                         _ids.add(_id = _posibleID - 1);
                     }
                 }
-                // add communication here
+                new FixMessages(_id, _in, _out);
                 _out.println("your broker id is: " + _id);
-//                while (true) {
-//
-//                }
             }catch(IOException e) {}
         }
     }

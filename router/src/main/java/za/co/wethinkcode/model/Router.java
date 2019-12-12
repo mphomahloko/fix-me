@@ -30,7 +30,7 @@ public class Router {
     }
 
 /* ********************************* Broker ************************************** */ 
-    private static class ManagesBroker implements Runnable{
+    private static class ManagesBroker implements Runnable {
         @Override
         public void run() {
             ExecutorService pool = Executors.newFixedThreadPool(20);
@@ -53,7 +53,7 @@ public class Router {
         }
 
         @Override public void run() {
-            try{
+            try {
                 _in = new Scanner(_socket.getInputStream());
                 _out = new PrintWriter(_socket.getOutputStream(), true);
                 synchronized (_ids) {
@@ -61,9 +61,9 @@ public class Router {
                         _ids.add(_id = _posibleID - 1);
                     }
                 }
-                new FixMessages(_id, _in, _out);
                 _out.println("your broker id is: " + _id);
-            }catch(IOException e) {}
+              new FixMessages(_id, _in, _out);
+            } catch (IOException e) {}
         }
     }
 

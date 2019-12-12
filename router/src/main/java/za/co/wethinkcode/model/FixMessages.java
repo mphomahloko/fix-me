@@ -15,12 +15,9 @@ public class FixMessages {
     {
         while (true)
         {
-            String input;
             _out.println("1. Buy \n2. Sell");
-            input = _in.nextLine();
-
-
+	    String line = _in.nextLine();
+	    System.out.println(line + " is what the client has typed");
         }
-
     }
 }

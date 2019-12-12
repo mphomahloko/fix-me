@@ -5,7 +5,7 @@ import java.io.IOException;
 import za.co.wethinkcode.model.Broker;
 
 /**
- * Hello world!
+ *  Broker App!
  *
  */
 public class App 
@@ -14,6 +14,7 @@ public class App
     {
         try {
             Broker broker = new Broker();
-        }catch(IOException e) {}
+	    broker.run();
+        } catch (IOException e) {}
     }
 }

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+import javax.swing.text.DefaultCaret;
 
 public class Broker {
 	private String _serverAddress = "127.0.0.1";
@@ -42,6 +43,8 @@ public class Broker {
 			    _textField.setText("");
 		    }
 	    });
+	    DefaultCaret caret = (DefaultCaret)_messageArea.getCaret();
+	    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	    _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    _frame.setVisible(true);
     }

@@ -34,11 +34,11 @@ public class Router {
         @Override
         public void run() {
             ExecutorService pool = Executors.newFixedThreadPool(20);
-            try(ServerSocket listener = new ServerSocket(5000)) {
+            try (ServerSocket listener = new ServerSocket(5000)) {
                 while (true) {
                     pool.execute(new ManageBroker(listener.accept()));
                 }
-            }catch(IOException e) {}
+            } catch (IOException e) {}
         }
     }
 
@@ -87,11 +87,11 @@ public class Router {
         @Override
         public void run() {
             ExecutorService pool = Executors.newFixedThreadPool(20);
-            try(ServerSocket listener = new ServerSocket(5001)) {
+            try (ServerSocket listener = new ServerSocket(5001)) {
                 while (true) {
                     pool.execute(new ManageMarket(listener.accept()));
                 }
-            }catch(IOException e) {}
+            } catch (IOException e) {}
         }
     }
 
@@ -107,7 +107,7 @@ public class Router {
         }
 
         @Override public void run() {
-            try{
+            try {
                 _in = new Scanner(_socket.getInputStream());
                 _out = new PrintWriter(_socket.getOutputStream(), true);
                 synchronized (_ids) {
@@ -116,7 +116,7 @@ public class Router {
                     }
                 }
                 _out.println("your market id is: " + _id);
-            }catch(IOException e) {}
+            } catch (IOException e) {}
         }
     }
 }

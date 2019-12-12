@@ -7,26 +7,37 @@ import java.net.Socket;
 
 import java.util.Scanner;
 
-/**
- * Market App
- *
- */
 public class Market {
-   private Scanner _in;
-   private PrintWriter _out;
+	private String _serverAddress = "127.0.0.1";
+	private int _PORT = 5001;
+	private Socket _socket;
+	private Scanner _in;
+	private PrintWriter _out;
+	private int _marketID;
+	
+	public Market() {
+		return ;
+	}
 
-    public Market() throws IOException {
-        Socket socket =  new Socket("127.0.0.1", 5001);
-        _in = new Scanner(socket.getInputStream());
-        _out = new PrintWriter(socket.getOutputStream(), true);
+	private void getMarketId() {
+		String line = _in.nextLine();
+		System.out.println(line);
+		this._marketId = Integer.parseInt(line.substring(19));
+		return ;
+	}
 
-        System.out.println("Server response " + _in.nextLine());
-        try {
-            // implementing logic
-            _in.close();
-            socket.close();
-            System.out.println("Market disconnected!");
-        }catch(IOException e) {
-        }
-    }
+	public void run() throws IOException {
+		try {
+			this._socket = new Socket(_serverAddress, _PORT);
+			this._in = new Scanner(_socket.getInputStream());
+			this._out = new PrintWriter(_socket.getOutputStream(), true);
+
+			getMarketId();
+			while (_in.hasNextLine()) {
+				String line = _in.nextLine();
+				// do something with this input
+				System.out.println("message from broker " + line);
+			}
+		} finally {}
+	}
 }

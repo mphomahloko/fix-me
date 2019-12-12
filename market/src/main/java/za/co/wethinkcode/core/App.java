@@ -14,6 +14,7 @@ public class App
     {
         try {
             Market market = new Market();
+	    market.run();
         }catch(IOException e) {}
     }
 }

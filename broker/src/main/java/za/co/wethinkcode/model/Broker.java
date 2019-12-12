@@ -4,10 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.net.Socket;
-import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.IOException;
+
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -15,13 +15,15 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.text.DefaultCaret;
 
+import java.util.Scanner;
+
 public class Broker {
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5000; 
 	private Socket _socket;
 	private Scanner _in;
 	private PrintWriter _out;
-	public int brokerId;
+	private int _brokerId;
 
 	// broker GUI
 	private JFrame _frame = new JFrame("Broker");
@@ -52,7 +54,7 @@ public class Broker {
     private void getBrokerId() {
 	    String line = _in.nextLine();
 	    _messageArea.append(line + "\n");
-	    this.brokerId =  Integer.parseInt(line.substring(19));
+	    this._brokerId =  Integer.parseInt(line.substring(19));
 	    return ;
     }
 
@@ -63,7 +65,7 @@ public class Broker {
 		    this._out = new PrintWriter(_socket.getOutputStream(), true);
 
 		    getBrokerId();
-		    this._frame.setTitle("Broker " + brokerId);
+		    this._frame.setTitle("Broker " + _brokerId);
 		    this._textField.setEditable(true);
 
 		    while (_in.hasNextLine()) {

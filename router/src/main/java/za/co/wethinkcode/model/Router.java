@@ -62,8 +62,19 @@ public class Router {
                     }
                 }
                 _out.println("your broker id is: " + _id);
+		System.out.println("Broker" + _id + " has successfully connected...");
               new FixMessages(_id, _in, _out);
-            } catch (IOException e) {}
+            } catch (IOException ex) {
+		    System.out.println(ex);
+	    } finally {
+		    if (_ids.contains(_id)) {
+			    _ids.remove(_id);
+		    }
+		    System.out.println("Broker" + _id + " has disconnected...");
+		    try {
+			    _socket.close();
+		    } catch (IOException e) {}
+	    }
         }
     }
 

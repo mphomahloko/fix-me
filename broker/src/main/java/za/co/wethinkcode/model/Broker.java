@@ -65,9 +65,7 @@ public class Broker {
 
 		    while (_in.hasNextLine()) {
 			    String line = _in.nextLine();
-			    if (line.startsWith("1. Buy ")) {
-				    _messageArea.append(line + "\n");
-			    }
+			    _messageArea.append(line + "\n");
 		    }
 	    } finally {
 		    _frame.setVisible(false);

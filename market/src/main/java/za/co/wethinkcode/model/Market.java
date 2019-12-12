@@ -13,7 +13,7 @@ public class Market {
 	private Socket _socket;
 	private Scanner _in;
 	private PrintWriter _out;
-	private int _marketID;
+	private int _marketId;
 	
 	public Market() {
 		return ;

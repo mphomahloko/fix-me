@@ -1,9 +1,9 @@
 package za.co.wethinkcode.model.instruments;
 
-public class Bread extends Instrument implements Product {
+public class Egg extends Instrument implements Product {
 	private MarketTower _marketTower;
 
-	public Bread(String name, InstrumentDetails details) {
+	public Egg(String name, InstrumentDetails details) {
 		super(name, details);
 		return ;
 	}

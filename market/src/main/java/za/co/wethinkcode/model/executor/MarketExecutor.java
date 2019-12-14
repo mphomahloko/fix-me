@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class MarketExecutor {
+
+	private static MarketExecutor _market = new MarketExecutor();
+
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5001;
 	private Socket _socket;
@@ -17,6 +20,10 @@ public class MarketExecutor {
 	
 	public MarketExecutor() {
 		return ;
+	}
+	
+	public static MarketExecutor getMarket() {
+		return _market;
 	}
 
 	private void getMarketId() {

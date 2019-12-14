@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import za.co.wethinkcode.model.Market;
+import za.co.wethinkcode.model.executor.MarketExecutor;
 
 /**
  * Market App!

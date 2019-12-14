@@ -1,4 +1,4 @@
-package za.co.wethinkcode.model.market;
+package za.co.wethinkcode.model.executor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,7 +7,7 @@ import java.net.Socket;
 
 import java.util.Scanner;
 
-public class Market {
+public class MarketExecutor {
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5001;
 	private Socket _socket;
@@ -15,7 +15,7 @@ public class Market {
 	private PrintWriter _out;
 	private int _marketId;
 	
-	public Market() {
+	public MarketExecutor() {
 		return ;
 	}
 

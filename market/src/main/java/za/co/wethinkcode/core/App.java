@@ -5,9 +5,13 @@ import java.util.List;
 
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 
-import za.co.wethinkcode.model.executor.MarketExecutor;
+import za.co.wethinkcode.model.factory.InstrumentFactory;
+import za.co.wethinkcode.model.market.MarketTower;
+import za.co.wethinkcode.model.product.Product;
 
 /**
  * Market App!
@@ -15,16 +19,36 @@ import za.co.wethinkcode.model.executor.MarketExecutor;
  */
 
 public class App {
-	private int marketSimulationCycles = 0;
+	private static int marketSimulationCycles = 0;
 	private static List<String> fileContents = new ArrayList<String>();
-	
+	public static List<Product>  products = new ArrayList<Product>();
+	public static List<String>  logMessage = new ArrayList<String>();
 	public static void main(String[] args) {
+		MarketTower tower = new MarketTower();
 		try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
-			//Market market = new Market();
-			//market.run();
+			// Market market = new Market();
+			// market.run();
 			marketStockReader(reader, args[0]);
 			parseStock();
-        } catch (IOException e) {}
+			for (Product product: products) {
+				product.registerMarket(tower);
+			}
+			while (marketSimulationCycles-- > 0) {
+				tower.updatedProducts();
+			}
+			try (BufferedWriter writter =  new BufferedWriter(new FileWriter("simulation.txt")))
+			{
+				scenarioWriter(writter);
+			}
+			catch (IOException e)
+			{
+				System.out.println(e.getMessage());
+			}
+		} catch (StockException ex) {
+			System.out.print(ex.getMessage());
+		} catch (IOException ex) {
+			System.out.println(ex.getMessage());
+		}
     }
 
     private static void marketStockReader(BufferedReader reader, String fileName) throws IOException {
@@ -32,7 +56,17 @@ public class App {
 	    while ((line = reader.readLine()) != null) {
 		    fileContents.add(line);
 	    }
-    }
+	}
+	
+	private static void	scenarioWriter(BufferedWriter writter) throws IOException
+	{
+		for (String message: logMessage)
+		{
+			writter.write(message);
+			writter.newLine();
+		}
+	}
+
 
     private static void parseStock() throws StockException {
 	    String[] InstrumentDetails = null; // product type, name, price and qty
@@ -40,11 +74,12 @@ public class App {
 
 	    try {
 		    // random customers buying from the market should atleast be more than 1
-		    marketSimulationCycles = Integer.valueOf(lineNumberInFile);
+		    marketSimulationCycles = Integer.valueOf(fileContents.get(lineNumberInFile));
 		    if (marketSimulationCycles < 1) throw new StockException("Expected a number greater than 0", fileContents.get(lineNumberInFile));
-		    lineNumberInFile += 1;
-	    } catch (NumberFormatException ex)
-	    for(lineNumberInFile; lineNumberInFile < fileContents.size(); lineNumberInFile += 1) {
+	    } catch (NumberFormatException ex) {
+			ex.getMessage();
+		}
+	    for(lineNumberInFile += 1; lineNumberInFile < fileContents.size(); lineNumberInFile += 1) {
 		    InstrumentDetails = fileContents.get(lineNumberInFile).split(" ");
 		    // Expected Format PRODUCT_TYPE NAME PRICE QTY
 		    if (InstrumentDetails.length != 4) throw new StockException("Stock not properly formatted", fileContents.get(lineNumberInFile));
@@ -53,8 +88,21 @@ public class App {
 			    throw new StockException("Product price or quantity cannot be 0.", fileContents.get(lineNumberInFile));
 		    // Depending on what the markets are selling
 		    if (InstrumentDetails[0].equals("Bread") || InstrumentDetails[0].equals("Egg") || InstrumentDetails[0].equals("Bacon")) {// function to check if the product is part of any market
-			    // Instrument Factory
-		    }
+				try
+				{
+
+					products.add(InstrumentFactory.newInstrument(InstrumentDetails[0],
+																InstrumentDetails[1],
+																Integer.valueOf(InstrumentDetails[2]),
+																Integer.valueOf(InstrumentDetails[3])));
+				}
+				catch(NumberFormatException e)
+				{
+					throw new StockException("Expected a number", fileContents.get(lineNumberInFile), e);
+				}
+			}
+			else
+				throw new StockException(InstrumentDetails[lineNumberInFile]+" is not recognized as a Product on line", "'"+lineNumberInFile+"'");
 	    }
     }
 }

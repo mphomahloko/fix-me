@@ -1,5 +1,9 @@
 package za.co.wethinkcode.model.instruments;
 
+import za.co.wethinkcode.model.instruments.details.InstrumentDetails;
+import za.co.wethinkcode.model.market.MarketTower;
+import za.co.wethinkcode.model.product.Product;
+
 public class Bread extends Instrument implements Product {
 	private MarketTower _marketTower;
 

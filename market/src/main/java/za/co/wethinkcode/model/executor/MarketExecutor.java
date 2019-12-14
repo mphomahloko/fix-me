@@ -13,6 +13,9 @@ public class MarketExecutor {
 
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5001;
+
+	public String Order = "Egg 2 3";
+
 	private Socket _socket;
 	private Scanner _in;
 	private PrintWriter _out;

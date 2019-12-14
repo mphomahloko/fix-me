@@ -35,7 +35,7 @@ public class Market {
 			getMarketId();
 			while (_in.hasNextLine()) {
 				String line = _in.nextLine();
-				// do something with this input
+				// fix-message from broker
 				System.out.println("message from broker " + line);
 			}
 		} finally {}

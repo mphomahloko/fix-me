@@ -19,13 +19,11 @@ public class App {
 	private static List<String> fileContents = new ArrayList<String>();
 	
 	public static void main(String[] args) {
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
 			//Market market = new Market();
 			//market.run();
-			try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
-				marketStockReader(reader, args[0]);
-				parseStock();
-			}
+			marketStockReader(reader, args[0]);
+			parseStock();
         } catch (IOException e) {}
     }
 

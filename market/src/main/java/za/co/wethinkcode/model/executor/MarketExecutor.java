@@ -1,4 +1,4 @@
-package za.co.wethinkcode.model;
+package za.co.wethinkcode.model.executor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,16 +7,26 @@ import java.net.Socket;
 
 import java.util.Scanner;
 
-public class Market {
+public class MarketExecutor {
+
+	private static MarketExecutor _market = new MarketExecutor();
+
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5001;
+
+	public String Order = "Egg 2 3";
+
 	private Socket _socket;
 	private Scanner _in;
 	private PrintWriter _out;
 	private int _marketId;
 	
-	public Market() {
+	public MarketExecutor() {
 		return ;
+	}
+	
+	public static MarketExecutor getMarket() {
+		return _market;
 	}
 
 	private void getMarketId() {
@@ -35,7 +45,7 @@ public class Market {
 			getMarketId();
 			while (_in.hasNextLine()) {
 				String line = _in.nextLine();
-				// do something with this input
+				// fix-message from broker
 				System.out.println("message from broker " + line);
 			}
 		} finally {}

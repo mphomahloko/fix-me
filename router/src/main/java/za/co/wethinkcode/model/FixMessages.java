@@ -15,31 +15,28 @@ public class FixMessages {
     private float _price;
     private String _message;
     List<String> fixList = new ArrayList(){};
-    int count =0;
+    int count = 0;
 
     public FixMessages(int id, Scanner _in, PrintWriter _out) throws IOException {
         try {
             while (true) {
-                _out.println("1. Buy \n2. Sell");
+                _out.println("Do you wish to Buy Or Sell?.");
                 String line = _in.nextLine();
-                _out.println(line + " is what the client has typed");
 
-                while(true)
-                {
-                    if(line.toLowerCase().equals("buy") || line.toLowerCase().equals("sell"))
+                // broker chooses between buy or sell
+                while (true) {
+                    if (line.toLowerCase().equals("buy") || line.toLowerCase().equals("sell"))
                         break;
                     System.out.println("Please pick one of the option above");
                     _out.println("Please pick one of the option above");
                     line = _in.nextLine();
                 }
 
-                if(line.equals("Buy"))
-                {
-//                    System.out.println("buy");
-                    //create market object which we can tap into and receive current Stock
-                    //multiple market list here
-                    //search for right market
-                    //demo - deal with one
+                if (line.toLowerCase().equals("buy")) {
+                    // create market object which we can tap into and receive current Stock
+                    // multiple market list here
+                    // search for right market
+                    // demo - deal with one
                     while (count == 0) {
                         System.out.println("Select market ID ");
                         _out.println("Select market ID ");
@@ -60,23 +57,21 @@ public class FixMessages {
                     // list object .add(line) ////holds all inputted value from user in list object
                     fixList.add(line);
 
-                    while(true)
-                    {
+                    while (true) {
                         System.out.println("Enter your price: ");
                         _out.println("Enter your price: ");
                         line = _in.nextLine();
-                        try{
+                        try {
                             Integer.parseInt(line);
-                            break;
-                        }catch(java.lang.NumberFormatException VariableDeclaratorId){
+                            break ;
+                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
                         }
                         System.out.println("Invalid price");
                     }
                     fixList.add(line);
                     // list object .add(line) //holds all inputed value from user
 
-                    while(!(line.equals("pen") || line.equals("books")))
-                    {
+                    while(!(line.equals("pen") || line.equals("books"))) {
                         System.out.println("Enter the available item in stock: ");
                         _out.println("Enter the available item in stock: ");
                         line =_in.nextLine();
@@ -92,7 +87,7 @@ public class FixMessages {
                         try{
                             Integer.parseInt(line);
                             break;
-                        }catch(java.lang.NumberFormatException VariableDeclaratorId){
+                        } catch(java.lang.NumberFormatException VariableDeclaratorId) {
                         }
                         System.out.println("Invalid unit");
                     }
@@ -116,14 +111,8 @@ public class FixMessages {
                     //create an encoder
                 }
 
-                if(line.equals("Sell"))
-                {
-
-                }
-
-
+                if (line.toLowerCase().equals("sell")) {}
             }
-        }
-        finally {}
+        } finally {}
     }
 }

@@ -36,6 +36,11 @@ public class MarketExecutor {
 		return ;
 	}
 
+	private String marketStock() {
+		String stockAvailable = "Stock";
+		return stockAvailable;
+	}
+
 	public void run() throws IOException {
 		try {
 			this._socket = new Socket(_serverAddress, _PORT);
@@ -43,11 +48,7 @@ public class MarketExecutor {
 			this._out = new PrintWriter(_socket.getOutputStream(), true);
 
 			getMarketId();
-			while (_in.hasNextLine()) {
-				String line = _in.nextLine();
-				// fix-message from broker
-				System.out.println("message from broker " + line);
-			}
+			_out.println(marketStock());
 		} finally {}
 	}
 }

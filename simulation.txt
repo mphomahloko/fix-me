@@ -1,6 +1,0 @@
-Tower says: Egg#E1(2) registered to tower.
-Egg#E1(2) works.
-Egg#E1(2) works.
-Egg#E1(2) works.
-Egg#E1(2) works.
-Egg#E1(2) works.

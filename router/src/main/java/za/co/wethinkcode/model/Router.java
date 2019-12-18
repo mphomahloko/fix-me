@@ -116,6 +116,9 @@ public class Router {
                     }
                 }
                 _out.println("your market id is: " + _id);
+                while (_in.hasNextLine()) {
+                    System.out.println(_in.nextLine());
+                }
             } catch (IOException e) {}
         }
     }

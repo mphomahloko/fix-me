@@ -1,7 +1,5 @@
 package za.co.wethinkcode.model;
 
-import za.co.wethinkcode.model.ChainOfResponsibility.ChainOfCommand;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,9 +12,8 @@ public class FixMessages {
     Scanner _in;
     PrintWriter _out;
     
-    List<String> fixList = new ArrayList(){};
-    int count =0;
-    String fixed ="";
+    List<String> fixList = new ArrayList<String>();
+    String fixed = "";
 
     public FixMessages(int id, Scanner _in, PrintWriter _out) {
         this.id = id;
@@ -42,7 +39,7 @@ public class FixMessages {
                 if (line.toLowerCase().equals("buy")) {
 
                     fixList.add(String.valueOf(id));
-                    while (count == 0) {
+                    while (true) {
                         _out.println("Select market ID ");
                         line = _in.nextLine();
                         _out.println(line);
@@ -85,7 +82,7 @@ public class FixMessages {
                     }
                 }
                 else if (line.toLowerCase().equals("sell")) {
-                    while (count == 0) {
+                    while (true) {
                         _out.println("Select the market ID ");
                         line = _in.nextLine();
                         break;

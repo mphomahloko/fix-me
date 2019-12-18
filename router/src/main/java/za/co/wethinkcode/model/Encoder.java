@@ -15,8 +15,8 @@ public class Encoder {
 
     public Encoder() { return ; }
 
-    public String MessageEncoder(List<String> fixList, String msgType){
-
+    public String MessageEncoder(List<String> fixList, String msgType) {
+        System.out.println(fixList);
         fixMessage ="";
         bodyString = "";
         checkSumString = "";

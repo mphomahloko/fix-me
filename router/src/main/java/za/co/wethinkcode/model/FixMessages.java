@@ -8,16 +8,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class FixMessages {
-    private String _decision;
-    private String _instrument;
-    private double _quantity;
-    private String _market;
-    private float _price;
-    private String _message;
-    List<String> fixList = new ArrayList(){};
-    int count = 0;
+    int id;
+    Scanner _in;
+    PrintWriter _out;
+    
+    List<String> fixList = new ArrayList<String>();
+    String fixed = "";
 
-    public FixMessages(int id, Scanner _in, PrintWriter _out) throws IOException {
+    public FixMessages(int id, Scanner _in, PrintWriter _out) {
+        this.id = id;
+        this._in = _in;
+        this._out = _out;
+    }
+
+    public String buyOrSell() throws IOException {
         try {
             while (true) {
                 _out.println("Do you wish to Buy Or Sell?.");
@@ -25,93 +29,103 @@ public class FixMessages {
 
                 // broker chooses between buy or sell
                 while (true) {
+                    _out.println(line);
                     if (line.toLowerCase().equals("buy") || line.toLowerCase().equals("sell"))
-                        break;
-                    System.out.println("Please pick one of the option above");
+                        break ;
                     _out.println("Please pick one of the option above");
                     line = _in.nextLine();
                 }
 
                 if (line.toLowerCase().equals("buy")) {
-                    // create market object which we can tap into and receive current Stock
-                    // multiple market list here
-                    // search for right market
-                    // demo - deal with one
-                    while (count == 0) {
-                        System.out.println("Select market ID ");
+
+                    fixList.add(String.valueOf(id));
+                    while (true) {
                         _out.println("Select market ID ");
                         line = _in.nextLine();
+                        _out.println(line);
                         break;
-
-//                        match = Integer.parseInt(line);
-//                        for (Integer marketID : marketList) {
-//                            if (match.equals(marketID)) {
-//                                count++;// add market to list and break out
-//                                break;
-//                            }
-//                        }
-//                        if (count == 0)
-//                            System.out.println("Invalid market id");
-                        //break out of loop with one count
                     }
-                    // list object .add(line) ////holds all inputted value from user in list object
                     fixList.add(line);
-
-                    while (true) {
-                        System.out.println("Enter your price: ");
+                    while(true) {
                         _out.println("Enter your price: ");
                         line = _in.nextLine();
+                        _out.println(line);
                         try {
                             Integer.parseInt(line);
                             break ;
                         } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                            _out.println("Invalid price format.");
                         }
-                        System.out.println("Invalid price");
                     }
                     fixList.add(line);
-                    // list object .add(line) //holds all inputed value from user
+                    // status to buy
+                    fixList.add("1");
 
-                    while(!(line.equals("pen") || line.equals("books"))) {
-                        System.out.println("Enter the available item in stock: ");
-                        _out.println("Enter the available item in stock: ");
-                        line =_in.nextLine();
-                    }
+                    _out.println("Enter the desired stock you would like to purchace.");
+                    line =_in.nextLine();
+                    _out.println(line);
                     fixList.add(line);
-                    // list object .add(line) //holds all inputed value from user
-
-                    while(true)
-                    {
-                        System.out.println("Enter item quantity desired");
+                    while(true) {
                         _out.println("Enter item quantity desired");
                         line = _in.nextLine();
-                        try{
+                        _out.println(line);
+                        try {
                             Integer.parseInt(line);
                             break;
                         } catch(java.lang.NumberFormatException VariableDeclaratorId) {
+                            _out.println("Invalid unit");
+                        }
+                    }
+                    fixList.add(line);
+                    for(int i =0; i < fixList.size(); i++) {
+                        fixed += ""+fixList.get(i) + "|";
+                    }
+                }
+                else if (line.toLowerCase().equals("sell")) {
+                    while (true) {
+                        _out.println("Select the market ID ");
+                        line = _in.nextLine();
+                        break;
+                    }
+                    fixList.add(line);
+
+                    while(true) {
+                        _out.println("Enter your selling price: ");
+                        line = _in.nextLine();
+                        try {
+                            Integer.parseInt(line);
+                            break;
+                        } catch(java.lang.NumberFormatException VariableDeclaratorId){
+                            _out.println("Invalid price");
+                        }
+                    }
+                    fixList.add(line);
+                    fixList.add("2");
+                    while(!(line.equals("pen") || line.equals("books"))) {
+                        System.out.println("Enter the available item you wish to sell");
+                        _out.println("Enter the available item you wish to sell ");
+                        line =_in.nextLine();
+                    }
+                    fixList.add(line);
+                    while(true)
+                    {
+                        System.out.println("Enter item quantity desired to sell");
+                        _out.println("Enter item quantity desired to sell");
+                        line = _in.nextLine();
+                        try {
+                            Integer.parseInt(line);
+                            break;
+                        } catch(java.lang.NumberFormatException VariableDeclaratorId){
                         }
                         System.out.println("Invalid unit");
                     }
-                    // list object .add(line) //holds all inputed value from user
                     fixList.add(line);
-
-                    System.out.println("\n\n\n\n");
-//                    out.println(line);
-                    System.out.println("\n\n\n\n");
-                    System.out.println(fixList);
-
-                    String fixed ="";
-                    for(int i =0; i < fixList.size(); i++)
-                    {
-                        fixed += ""+fixList.get(i) + "|";
-                        System.out.println(fixList.get(i));
-
-                    }
-                    System.out.println(fixed);
-
-                    //create an encoder
                 }
-
-                if (line.toLowerCase().equals("sell")) {}
+                Encoder FixedMessage1 = new Encoder();
+                return FixedMessage1.MessageEncoder(fixList,"D");
+                // send msg to the router
+                // ChainOfCommand chainHandler = new ChainOfCommand();
+                // chainHandler.HandleChain(return_this);
             }
         } finally {}
     }

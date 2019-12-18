@@ -7,6 +7,9 @@ import java.net.Socket;
 
 import java.util.Scanner;
 
+import za.co.wethinkcode.core.App;
+import za.co.wethinkcode.model.product.Product;
+
 public class MarketExecutor {
 
 	private static MarketExecutor _market = new MarketExecutor();
@@ -36,17 +39,26 @@ public class MarketExecutor {
 		return ;
 	}
 
+	private void marketStock() {
+		_out.println("\nMARKET " + _marketId + " AVAILABLE STOCK");
+		for (Product product: App.products) {
+			_out.println("->" + product);
+		}
+		return ;
+	}
+
 	public void run() throws IOException {
 		try {
 			this._socket = new Socket(_serverAddress, _PORT);
 			this._in = new Scanner(_socket.getInputStream());
 			this._out = new PrintWriter(_socket.getOutputStream(), true);
-
+			String input;
 			getMarketId();
-			while (_in.hasNextLine()) {
-				String line = _in.nextLine();
-				// fix-message from broker
-				System.out.println("message from broker " + line);
+			// send market products to brokers for trading.
+			marketStock();
+			while (true) {
+				input = _in.nextLine();
+				System.out.println(input);
 			}
 		} finally {}
 	}

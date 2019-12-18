@@ -66,12 +66,13 @@ public class Broker {
 
 		    getBrokerId();
 		    this._frame.setTitle("Broker " + _brokerId);
-		    this._textField.setEditable(true);
-
-		    while (_in.hasNextLine()) {
-			    String line = _in.nextLine();
-			    _messageArea.append(line + "\n");
-		    }
+			this._textField.setEditable(true);
+			while (true) {
+				while (_in.hasNextLine()) {
+					String line = _in.nextLine();
+					_messageArea.append(line + "\n");
+				}
+			}
 	    } finally {
 		    _frame.setVisible(false);
 		    _frame.dispose();

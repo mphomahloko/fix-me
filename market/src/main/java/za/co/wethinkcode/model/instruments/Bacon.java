@@ -23,8 +23,12 @@ public class Bacon extends Instrument implements Product {
 	public void registerMarket(MarketTower marketTower) {
 		this._marketTower = marketTower;
 		this._marketTower.register(this);
-		// update broadcast to brokers
 		return ;
+	}
+
+	@Override
+	public String toString() {
+		return this._name + " price: R" + _details.getPrice() + " available items: " + this._details.getQty();
 	}
 
 }

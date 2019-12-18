@@ -18,6 +18,9 @@ import java.util.concurrent.ExecutorService;
  */
 public class Router {
     private static Set<Integer> _ids = new HashSet<>();
+    // The set of all the print writers for all the brokers, used for broadcast.
+    private static Set<PrintWriter> _writers = new HashSet<>();
+
     private static int _posibleID = 100000;
     public Router() throws IOException {
         System.out.println("Router is running...");
@@ -62,8 +65,9 @@ public class Router {
                     }
                 }
                 _out.println("your broker id is: " + _id);
-		System.out.println("Broker" + _id + " has successfully connected...");
-              new FixMessages(_id, _in, _out);
+                System.out.println("Broker" + _id + " has successfully connected...");
+                _writers.add(_out);
+                new FixMessages(_id, _in, _out);
             } catch (IOException ex) {
 		    System.out.println(ex);
 	    } finally {
@@ -116,8 +120,11 @@ public class Router {
                     }
                 }
                 _out.println("your market id is: " + _id);
-                while (_in.hasNextLine()) {
-                    System.out.println(_in.nextLine());
+                // sending available products to the broker
+                for (PrintWriter writer : _writers) {
+                    while (_in.hasNextLine()) {
+                        writer.println(_in.nextLine());
+                    }
                 }
             } catch (IOException e) {}
         }

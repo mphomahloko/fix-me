@@ -25,4 +25,9 @@ public class Egg extends Instrument implements Product {
 		this._marketTower.register(this);
 		return ;
 	}
+
+	@Override
+	public String toString() {
+		return this._name + " price: R" + _details.getPrice() + " available items: " + this._details.getQty();
+	}
 }

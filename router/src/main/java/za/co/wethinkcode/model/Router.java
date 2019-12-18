@@ -1,11 +1,14 @@
 package za.co.wethinkcode.model;
 
+import sun.jvm.hotspot.debugger.win32.coff.TestDebugInfo;
+
 import java.io.PrintWriter;
 import java.io.IOException;
 
 import java.net.Socket;
 import java.net.ServerSocket;
 
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -19,14 +22,19 @@ import java.util.concurrent.ExecutorService;
  *
  */
 public class Router {
+    private static TextDecorator _td = new TextDecorator();
     private static Set<Integer> _ids = new HashSet<>();
     // The set of all the print writers for all the brokers, used for broadcast.
     private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
     private static Set<Map<Integer,PrintWriter>> _marketWriters = new HashSet<>();
 
+    private static FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
+
     private static int _posibleID = 100000;
-    public Router() throws IOException {
-        System.out.println("Router is running...");
+    public Router() throws IOException, SQLException {
+        System.out.println(_td.viewMessage("Router is running...","normal"));
+
+        fixMessageDatabase.createTransactionTable();
 
         Thread brokers = new Thread(new ManagesBroker());
         brokers.start();
@@ -68,7 +76,7 @@ public class Router {
                     }
                 }
                 _out.println("your broker id is: " + _id);
-                System.out.println("Broker " + _id + " has successfully connected...");
+                System.out.println(_td.viewMessage(("[" + _td.blue + "BROKER " + _td.reset + ": " +  _id + "] has successfully connected..."),"none"));
                 Map<Integer,PrintWriter> broker = new HashMap<Integer,PrintWriter>();
                 broker.put(_id, _out);
                 _brokerWriters.add(broker);
@@ -81,6 +89,8 @@ public class Router {
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
                     System.out.println(fixedMsg);
+                    fixMessageDatabase.saveToDataBase(fixedMsg);
+
                     // 2. send to desired market
                     Decoder recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
@@ -97,7 +107,7 @@ public class Router {
 
                 }
 
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
 		    System.out.println(ex);
 	    } finally {
 		    if (_ids.contains(_id)) {
@@ -148,7 +158,9 @@ public class Router {
                         _ids.add(_id = _posibleID - 1);
                     }
                 }
-                _out.println("your market id is: " + _id);
+//                _out.println("your market id is: " + _id);
+                _out.println(_td.viewMessage(("[" + _td.purple + "MARKET " + _td.reset + ": " +  _id + "] you market is " + _id),"none"));
+
                 Map<Integer,PrintWriter> market = new HashMap<Integer,PrintWriter>();
                 market.put(_id, _out);
                 _marketWriters.add(market);

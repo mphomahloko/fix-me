@@ -24,6 +24,8 @@ public class Encoder {
         buildFixHead(msgType,bodyString);
         buildCheckSum(bodyString);
         fixMessage = fixMessage + beginString + bodyString + checkSumString;
+
+        
         return fixMessage;
     }
 

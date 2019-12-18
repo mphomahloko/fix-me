@@ -1,7 +1,7 @@
 package za.co.wethinkcode.core;
 
+import za.co.wethinkcode.model.FixMessageDatabase;
 import za.co.wethinkcode.model.Router;
-import za.co.wethinkcode.model.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,14 +11,14 @@ import java.sql.SQLException;
  *
  */
 public class App {
-  public Logger Logger;
+//  public FixMessageDatabase fixMessageDatabase;
 
   public static void main(String[] args) {
     try {
       Router router = new Router();
 
-      Logger logger = new Logger();
-      logger.createTransactionTable();;
+//      FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
+//      fixMessageDatabase.createTransactionTable();
 
     } catch (IOException | SQLException e) {
       System.out.println(e);

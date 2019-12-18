@@ -35,7 +35,7 @@ public class MarketExecutor {
 	private void getMarketId() {
 		String line = _in.nextLine();
 		System.out.println(line);
-		this._marketId = Integer.parseInt(line.substring(19));
+		this._marketId = Integer.parseInt(line.substring((line.length() - 6),line.length()));
 		return ;
 	}
 

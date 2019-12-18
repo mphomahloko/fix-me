@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import za.co.wethinkcode.model.Broker;
 
+import javax.swing.text.BadLocationException;
+
 /**
  *  Broker App!
  *
@@ -15,6 +17,6 @@ public class App
         try {
             Broker broker = new Broker();
             broker.run();
-        } catch (IOException e) {}
+        } catch (IOException | BadLocationException e) {}
     }
 }

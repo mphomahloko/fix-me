@@ -1,6 +1,5 @@
 package za.co.wethinkcode.core;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import java.io.FileReader;
 
 import za.co.wethinkcode.model.executor.MarketExecutor;
 import za.co.wethinkcode.model.factory.InstrumentFactory;
-import za.co.wethinkcode.model.market.Database;
 import za.co.wethinkcode.model.market.MarketTower;
 import za.co.wethinkcode.model.product.Product;
 

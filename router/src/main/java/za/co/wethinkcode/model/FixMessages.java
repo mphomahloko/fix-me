@@ -1,5 +1,7 @@
 package za.co.wethinkcode.model;
 
+import za.co.wethinkcode.model.ChainOfResponsibility.ChainOfCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +17,8 @@ public class FixMessages {
     private float _price;
     private String _message;
     List<String> fixList = new ArrayList(){};
-    int count = 0;
+    int count =0;
+    String fixed ="";
 
     public FixMessages(int id, Scanner _in, PrintWriter _out) throws IOException {
         try {
@@ -32,32 +35,19 @@ public class FixMessages {
                     line = _in.nextLine();
                 }
 
-                if (line.toLowerCase().equals("buy")) {
-                    // create market object which we can tap into and receive current Stock
-                    // multiple market list here
-                    // search for right market
-                    // demo - deal with one
+                if (line.toLowerCase().equals("buy"))
+                {
+
+                    fixList.add(String.valueOf(id));
                     while (count == 0) {
                         System.out.println("Select market ID ");
                         _out.println("Select market ID ");
                         line = _in.nextLine();
                         break;
-
-//                        match = Integer.parseInt(line);
-//                        for (Integer marketID : marketList) {
-//                            if (match.equals(marketID)) {
-//                                count++;// add market to list and break out
-//                                break;
-//                            }
-//                        }
-//                        if (count == 0)
-//                            System.out.println("Invalid market id");
-                        //break out of loop with one count
                     }
-                    // list object .add(line) ////holds all inputted value from user in list object
                     fixList.add(line);
-
-                    while (true) {
+                    while(true)
+                    {
                         System.out.println("Enter your price: ");
                         _out.println("Enter your price: ");
                         line = _in.nextLine();
@@ -69,7 +59,7 @@ public class FixMessages {
                         System.out.println("Invalid price");
                     }
                     fixList.add(line);
-                    // list object .add(line) //holds all inputed value from user
+                    fixList.add("1");
 
                     while(!(line.equals("pen") || line.equals("books"))) {
                         System.out.println("Enter the available item in stock: ");
@@ -77,8 +67,6 @@ public class FixMessages {
                         line =_in.nextLine();
                     }
                     fixList.add(line);
-                    // list object .add(line) //holds all inputed value from user
-
                     while(true)
                     {
                         System.out.println("Enter item quantity desired");
@@ -91,15 +79,61 @@ public class FixMessages {
                         }
                         System.out.println("Invalid unit");
                     }
-                    // list object .add(line) //holds all inputed value from user
+                    fixList.add(line);
+                    System.out.println(fixList);
+                    for(int i =0; i < fixList.size(); i++)
+                    {
+                        fixed += ""+fixList.get(i) + "|";
+                        System.out.println(fixList.get(i));
+                    }
+                    //create an encoder
+                }
+                else if (line.toLowerCase().equals("sell"))
+                {
+                    while (count == 0) {
+                        System.out.println("Select market ID ");
+                        _out.println("Select market ID ");
+                        line = _in.nextLine();
+                        break;
+                    }
                     fixList.add(line);
 
-                    System.out.println("\n\n\n\n");
-//                    out.println(line);
-                    System.out.println("\n\n\n\n");
+                    while(true)
+                    {
+                        System.out.println("Enter your selling price: ");
+                        _out.println("Enter your selling price: ");
+                        line = _in.nextLine();
+                        try{
+                            Integer.parseInt(line);
+                            break;
+                        }catch(java.lang.NumberFormatException VariableDeclaratorId){
+                        }
+                        System.out.println("Invalid price");
+                    }
+                    fixList.add(line);
+                    fixList.add("2");
+                    while(!(line.equals("pen") || line.equals("books")))
+                    {
+                        System.out.println("Enter the available item you wish to sell");
+                        _out.println("Enter the available item you wish to sell ");
+                        line =_in.nextLine();
+                    }
+                    fixList.add(line);
+                    while(true)
+                    {
+                        System.out.println("Enter item quantity desired to sell");
+                        _out.println("Enter item quantity desired to sell");
+                        line = _in.nextLine();
+                        try{
+                            Integer.parseInt(line);
+                            break;
+                        }catch(java.lang.NumberFormatException VariableDeclaratorId){
+                        }
+                        System.out.println("Invalid unit");
+                    }
+                    fixList.add(line);
                     System.out.println(fixList);
 
-                    String fixed ="";
                     for(int i =0; i < fixList.size(); i++)
                     {
                         fixed += ""+fixList.get(i) + "|";
@@ -107,11 +141,16 @@ public class FixMessages {
 
                     }
                     System.out.println(fixed);
-
-                    //create an encoder
                 }
+                System.out.println(fixed);
+                Encoder FixedMessage1 =new Encoder();
+                String return_this= FixedMessage1.MessageEncoder(fixList,"D");
 
-                if (line.toLowerCase().equals("sell")) {}
+                ChainOfCommand chainHandler = new ChainOfCommand();
+                chainHandler.HandleChain(return_this);
+
+
+
             }
         } finally {}
     }

@@ -13,7 +13,7 @@ public class Encoder {
     private     String  checkSumString = "";
 
 
-    public Encoder(){}
+    public Encoder() { return ; }
 
     public String MessageEncoder(List<String> fixList, String msgType){
 
@@ -24,16 +24,6 @@ public class Encoder {
         buildFixHead(msgType,bodyString);
         buildCheckSum(bodyString);
         fixMessage = fixMessage + beginString + bodyString + checkSumString;
-
-
-        System.out.println("bodyMessage ::");
-        System.out.println(bodyString);
-
-        System.out.println("\ncheckedMessage ::");
-        System.out.println(checkSumString);
-
-        System.out.println("\nfixedMessage ::");
-        System.out.println(fixMessage);
         return fixMessage;
     }
 
@@ -55,7 +45,7 @@ public class Encoder {
         return (bodyString.length());
     }
 
-    //You need to sum every byte in the message up to but not including the checksum field.
+    // You need to sum every byte in the message up to but not including the checksum field.
     // Then take this number modulo 256, and print it as a number of
     // 3 characters with leading zeroes (e.g. checksum=13 would become 013).
     public void buildCheckSum(String bodyString){

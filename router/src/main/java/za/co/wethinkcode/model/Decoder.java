@@ -8,18 +8,16 @@ public class Decoder {
     String fixedMessage;
     List<String> subDivder = new ArrayList<String>();
 
-    public Decoder(String msg){
+    public Decoder(String msg) {
         fixedMessage = msg;
         String[] subFixMessage = msg.split("\\|");
-
         for (int i = 0; i < subFixMessage.length; i++){
-            System.out.println(subFixMessage[i]);
             subDivder.add(subFixMessage[i]);
         }
     }
 
-    //deteremine a buyer/seller method
-    public String getSenderID(){
+    // deteremine a buyer/seller method
+    public String getSenderID() {
 
         for (int i = 0; i < subDivder.size(); i++)
         {
@@ -29,9 +27,9 @@ public class Decoder {
         }
         return null;
     }
+
     // determine sender and reciever id
-    public String getReciverID()
-    {
+    public String getReciverID() {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -41,9 +39,8 @@ public class Decoder {
         return null;
     }
 
-//determine whether we are selling or buying
-    public String getBuyorSell()
-    {
+    // determine whether we are selling or buying
+    public String getBuyorSell() {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -55,8 +52,7 @@ public class Decoder {
 
 
     // gives the value of the tag 460, that is the product
-    public String getProduct()
-    {
+    public String getProduct() {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -67,8 +63,7 @@ public class Decoder {
     }
 
     // gives the value of the tag 53, that is the value of the number of products
-    public String getQuantity()
-    {
+    public String getQuantity() {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -78,8 +73,7 @@ public class Decoder {
         return null;
     }
 
-
-    //determine  price
-    //determine the market
-    //determine success status
+    // determine  price
+    // determine the market
+    // determine success status
 }

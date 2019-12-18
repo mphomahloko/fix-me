@@ -8,7 +8,9 @@ import java.net.ServerSocket;
 
 import java.util.Set;
 import java.util.Scanner;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
@@ -19,7 +21,8 @@ import java.util.concurrent.ExecutorService;
 public class Router {
     private static Set<Integer> _ids = new HashSet<>();
     // The set of all the print writers for all the brokers, used for broadcast.
-    private static Set<PrintWriter> _writers = new HashSet<>();
+    private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
+    private static Set<Map<Integer,PrintWriter>> _marketWriters = new HashSet<>();
 
     private static int _posibleID = 100000;
     public Router() throws IOException {
@@ -65,16 +68,42 @@ public class Router {
                     }
                 }
                 _out.println("your broker id is: " + _id);
-                System.out.println("Broker" + _id + " has successfully connected...");
-                _writers.add(_out);
-                new FixMessages(_id, _in, _out);
+                System.out.println("Broker " + _id + " has successfully connected...");
+                Map<Integer,PrintWriter> broker = new HashMap<Integer,PrintWriter>();
+                broker.put(_id, _out);
+                _brokerWriters.add(broker);
+                // ...
+                FixMessages fix = new FixMessages(_id, _in, _out);
+                while (true) {
+                    String fixedMsg;
+                    // 1. get fixed msg
+                    // fixedMsg =  _in.nextLine();
+                    fixedMsg = fix.buyOrSell();
+                    _out.println(fixedMsg);
+                    System.out.println(fixedMsg);
+                    // 2. send to desired market
+                    Decoder recieverID = new Decoder(fixedMsg);
+                    for (Map<Integer, PrintWriter> writers : _marketWriters) {
+                        for (Integer identifier: writers.keySet()) { 
+                            if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
+                                PrintWriter writer = writers.get(identifier);
+                                writer.println(fixedMsg);
+                            }
+                        }
+                    }
+                    // 3. wait for responce from market
+
+                    // 4.  send back to broker
+
+                }
+
             } catch (IOException ex) {
 		    System.out.println(ex);
 	    } finally {
 		    if (_ids.contains(_id)) {
 			    _ids.remove(_id);
 		    }
-		    System.out.println("Broker" + _id + " has disconnected...");
+		    System.out.println("Broker " + _id + " has disconnected...");
 		    try {
 			    _socket.close();
 		    } catch (IOException e) {}
@@ -120,10 +149,16 @@ public class Router {
                     }
                 }
                 _out.println("your market id is: " + _id);
+                Map<Integer,PrintWriter> market = new HashMap<Integer,PrintWriter>();
+                market.put(_id, _out);
+                _marketWriters.add(market);
+
                 // sending available products to the broker
-                for (PrintWriter writer : _writers) {
-                    while (_in.hasNextLine()) {
-                        writer.println(_in.nextLine());
+                for (Map<Integer, PrintWriter> writers : _brokerWriters) {
+                    for (PrintWriter writer: writers.values()) {
+                        while (_in.hasNextLine()) {    
+                            writer.println(_in.nextLine());
+                        }
                     }
                 }
             } catch (IOException e) {}

@@ -1,5 +1,6 @@
 package za.co.wethinkcode.core;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import za.co.wethinkcode.model.factory.InstrumentFactory;
+import za.co.wethinkcode.model.market.Database;
 import za.co.wethinkcode.model.market.MarketTower;
 import za.co.wethinkcode.model.product.Product;
 
@@ -23,7 +25,11 @@ public class App {
 	private static List<String> fileContents = new ArrayList<String>();
 	public static List<Product>  products = new ArrayList<Product>();
 	public static List<String>  logMessage = new ArrayList<String>();
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws SQLException {
+		Database marketDatabase = new Database();
+		marketDatabase.createMarketTable();
+
 		MarketTower tower = new MarketTower();
 		try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
 			// Market market = new Market();
@@ -81,7 +87,9 @@ public class App {
 		}
 	    for(lineNumberInFile += 1; lineNumberInFile < fileContents.size(); lineNumberInFile += 1) {
 		    InstrumentDetails = fileContents.get(lineNumberInFile).split(" ");
-		    // Expected Format PRODUCT_TYPE NAME PRICE QTY
+		    // Expected Format 				
+				//  PRODUCT_TYPE NAME PRICE QTY
+
 		    if (InstrumentDetails.length != 4) throw new StockException("Stock not properly formatted", fileContents.get(lineNumberInFile));
 		    // PRICE and QTY should atleast be greater than 0
 		    if (Integer.valueOf(InstrumentDetails[2]) < 0 || Integer.valueOf(InstrumentDetails[3]) < 0)

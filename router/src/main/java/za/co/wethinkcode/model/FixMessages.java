@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class FixMessages {
+
+    Encoder FixedMessage1 = new Encoder();
     int id;
     Scanner _in;
     PrintWriter _out;
@@ -15,10 +17,18 @@ public class FixMessages {
     List<String> fixList;
     String fixed = "";
 
+    public FixMessages() {}
+
     public FixMessages(int id, Scanner _in, PrintWriter _out) {
         this.id = id;
         this._in = _in;
         this._out = _out;
+    }
+
+    public String responceFromMarket(int senderId, int recieverId) {
+        fixList = new ArrayList<String>();
+        
+        return FixedMessage1.MessageEncoder(fixList,"D");
     }
 
     public String buyOrSell() throws IOException {
@@ -122,11 +132,7 @@ public class FixMessages {
                     }
                     fixList.add(line);
                 }
-                Encoder FixedMessage1 = new Encoder();
                 return FixedMessage1.MessageEncoder(fixList,"D");
-                // send msg to the router
-                // ChainOfCommand chainHandler = new ChainOfCommand();
-                // chainHandler.HandleChain(return_this);
             }
         } finally {}
     }

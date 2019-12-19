@@ -73,7 +73,16 @@ public class Decoder {
         return null;
     }
 
-    // determine  price
+    // determine afordable price 
+    public String getPrice() {
+        for (int i = 0; i < subDivder.size(); i++) {
+            String[] res = subDivder.get(i).split("=");
+            if (res[0].equals("44"))
+                return res[1];
+        }
+        return null;
+    }
+    
     // determine the market
     // determine success status
 }

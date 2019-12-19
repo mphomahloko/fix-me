@@ -7,12 +7,9 @@ import java.net.Socket;
 import java.net.ServerSocket;
 
 import java.sql.SQLException;
+
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -25,8 +22,6 @@ public class Router {
     // The set of all the print writers for all the brokers, used for broadcast.
     private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
     private static Set<Map<Integer,PrintWriter>> _marketWriters = new HashSet<>();
-    public static Lock lock = new ReentrantLock();
-    public static Condition conditionMet = lock.newCondition();
 
     private static FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
 
@@ -85,6 +80,7 @@ public class Router {
                 _brokerWriters.add(broker);
                 // ...
                 FixMessages fix = new FixMessages(_id, _in, _out);
+                Decoder recieverID;
                 while (true) {
                     String fixedMsg;
                     // 1. get fixed msg
@@ -95,7 +91,7 @@ public class Router {
                     fixMessageDatabase.saveToDataBase(fixedMsg);
 
                     // 2. send to desired market
-                    Decoder recieverID = new Decoder(fixedMsg);
+                    recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
                         for (Integer identifier: writers.keySet()) { 
                             if (Integer.parseInt(recieverID.getReciverID()) == identifier) {

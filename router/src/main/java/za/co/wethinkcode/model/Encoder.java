@@ -38,6 +38,16 @@ public class Encoder {
 
     }
 
+    private void FixBodyResponse(List<String> fixList, String msgType){
+        bodyString += ""+ "|49=" + fixList.get(0);
+        bodyString += "|56=" + fixList.get(1);
+        bodyString += "|44=" + fixList.get(2);
+        bodyString += "|54=" + fixList.get(3);
+        bodyString += "|460=" + fixList.get(4);
+        bodyString += "|53=" + fixList.get(5) + "|";
+
+    }
+
     private void buildFixHead(String msgType, String bodyString){
         beginString = beginString + "9=" + Integer.toString(bodyLength(bodyString)) + "|35=" + msgType;
     }

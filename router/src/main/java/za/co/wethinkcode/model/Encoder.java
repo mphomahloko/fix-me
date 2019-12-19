@@ -38,14 +38,19 @@ public class Encoder {
 
     }
 
-    private void FixBodyResponse(List<String> fixList, String msgType){
+    public String FixBodyResponse(List<String> fixList, String msgType) {
+        fixMessage ="";
+        bodyString = "";
+        checkSumString = "";
         bodyString += ""+ "|49=" + fixList.get(0);
         bodyString += "|56=" + fixList.get(1);
         bodyString += "|44=" + fixList.get(2);
-        bodyString += "|54=" + fixList.get(3);
-        bodyString += "|460=" + fixList.get(4);
-        bodyString += "|53=" + fixList.get(5) + "|";
-
+        bodyString += "|460=" + fixList.get(3);
+        bodyString += "|53=" + fixList.get(4);
+        bodyString += "|39=" + fixList.get(5) + "|";
+        buildFixHead(msgType,bodyString);
+        buildCheckSum(bodyString);
+        return fixMessage;
     }
 
     private void buildFixHead(String msgType, String bodyString){

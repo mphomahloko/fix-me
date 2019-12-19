@@ -25,10 +25,18 @@ public class FixMessages {
         this._out = _out;
     }
 
-    public String responceFromMarket(int senderId, int recieverId) {
+    public String responceFromMarket(String fixedMsg, String status) {
         fixList = new ArrayList<String>();
-        
-        return FixedMessage1.MessageEncoder(fixList,"D");
+        Decoder decode = new Decoder(fixedMsg);
+        fixList.add(decode.getReciverID());
+        fixList.add(decode.getSenderID());
+        fixList.add(decode.getSenderID());
+        fixList.add(decode.getPrice());
+        fixList.add(decode.getProduct());
+        fixList.add(decode.getQuantity());
+        fixList.add(status);
+
+        return FixedMessage1.FixBodyResponse(fixList,"D");
     }
 
     public String buyOrSell() throws IOException {

@@ -1,7 +1,5 @@
 package za.co.wethinkcode.model;
 
-import sun.jvm.hotspot.debugger.win32.coff.TestDebugInfo;
-
 import java.io.PrintWriter;
 import java.io.IOException;
 
@@ -9,6 +7,7 @@ import java.net.Socket;
 import java.net.ServerSocket;
 
 import java.sql.SQLException;
+
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
@@ -81,6 +80,7 @@ public class Router {
                 _brokerWriters.add(broker);
                 // ...
                 FixMessages fix = new FixMessages(_id, _in, _out);
+                Decoder recieverID;
                 while (true) {
                     String fixedMsg;
                     // 1. get fixed msg
@@ -91,7 +91,7 @@ public class Router {
                     fixMessageDatabase.saveToDataBase(fixedMsg);
 
                     // 2. send to desired market
-                    Decoder recieverID = new Decoder(fixedMsg);
+                    recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
                         for (Integer identifier: writers.keySet()) { 
                             if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
@@ -99,13 +99,12 @@ public class Router {
                                 writer.println(fixedMsg);
                             }
                         }
+                        // 3. wait for responce from market
+                        
+                        // 4.  send back to broker
+                        
                     }
-                    // 3. wait for responce from market
-
-                    // 4.  send back to broker
-
                 }
-
             }
             catch (IOException | SQLException ex) {
                 System.out.println(ex);

@@ -1,23 +1,22 @@
 package za.co.wethinkcode.model.market;
 
-import za.co.wethinkcode.model.executor.MarketExecutor;
 import za.co.wethinkcode.model.instruments.details.InstrumentDetails;
+import za.co.wethinkcode.model.Decoder;
 
 public class MarketTower extends Tower {
 
 	// rejecting or accepting an order
 	public InstrumentDetails processOrder() {
-		MarketExecutor _market = MarketExecutor.getMarket();
-		String[] instrumentDetails = null;
-		instrumentDetails = _market.Order.split(" ");
-		InstrumentDetails dets;
-//		if (instrumentDetails[0].equals("Egg")) {
-			dets = new InstrumentDetails(Integer.valueOf(instrumentDetails[1]),Integer.valueOf(instrumentDetails[2]));
-		//}
-		return dets; 
+		Decoder decode = new Decoder(this._order);
+		// go check all item names first
+		InstrumentDetails dets = new InstrumentDetails(Integer.parseInt(decode.getPrice()), Integer.parseInt(decode.getQuantity()));
+		dets.setName(decode.getProduct());
+		return dets;
 	}
 
-	public void updatedProducts() {
+	// return fixedmsg
+	public void updatedProducts(String order) {
+		this._order = order;
 		_detailsChanged();
 		return ;
 	}

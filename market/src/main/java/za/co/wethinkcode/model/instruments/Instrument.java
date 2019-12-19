@@ -14,7 +14,7 @@ public abstract class Instrument {
 		this._id = _nextId();
 		return ;
 	}
-
+	
 	protected long _nextId() {
 		return Instrument._idGenerated += 1;
 	}

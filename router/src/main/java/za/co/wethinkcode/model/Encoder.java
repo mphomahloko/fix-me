@@ -16,7 +16,6 @@ public class Encoder {
     public Encoder() { return ; }
 
     public String MessageEncoder(List<String> fixList, String msgType) {
-        System.out.println(fixList);
         fixMessage ="";
         bodyString = "";
         checkSumString = "";
@@ -37,6 +36,21 @@ public class Encoder {
         bodyString += "|460=" + fixList.get(4);
         bodyString += "|53=" + fixList.get(5) + "|";
 
+    }
+
+    public String FixBodyResponse(List<String> fixList, String msgType) {
+        fixMessage ="";
+        bodyString = "";
+        checkSumString = "";
+        bodyString += ""+ "|49=" + fixList.get(0);
+        bodyString += "|56=" + fixList.get(1);
+        bodyString += "|44=" + fixList.get(2);
+        bodyString += "|460=" + fixList.get(3);
+        bodyString += "|53=" + fixList.get(4);
+        bodyString += "|39=" + fixList.get(5) + "|";
+        buildFixHead(msgType,bodyString);
+        buildCheckSum(bodyString);
+        return fixMessage;
     }
 
     private void buildFixHead(String msgType, String bodyString){

@@ -3,6 +3,7 @@ package za.co.wethinkcode.model.instruments.details;
 public class InstrumentDetails {
 	private int _price;
 	private int _qty;
+	private String _name;
 
 	public InstrumentDetails(int price, int qty) {
 		this._price = price > 1 ? price : 1; // can not have a price less than R1. please change type to float
@@ -13,4 +14,10 @@ public class InstrumentDetails {
 	public int getPrice() { return this._price; }
 
 	public int getQty() { return this._qty; }
+
+	public void setName(String name) {
+		this._name = name.toLowerCase();
+	}
+
+	public String getName() { return this._name; }
 }

@@ -8,12 +8,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class FixMessages {
+
+    Encoder FixedMessage1 = new Encoder();
     int id;
     Scanner _in;
     PrintWriter _out;
     
-    List<String> fixList = new ArrayList<String>();
+    List<String> fixList;
     String fixed = "";
+
+    public FixMessages() {}
 
     public FixMessages(int id, Scanner _in, PrintWriter _out) {
         this.id = id;
@@ -21,7 +25,22 @@ public class FixMessages {
         this._out = _out;
     }
 
+    public String responceFromMarket(String fixedMsg, String status) {
+        fixList = new ArrayList<String>();
+        Decoder decode = new Decoder(fixedMsg);
+        fixList.add(decode.getReciverID());
+        fixList.add(decode.getSenderID());
+        fixList.add(decode.getSenderID());
+        fixList.add(decode.getPrice());
+        fixList.add(decode.getProduct());
+        fixList.add(decode.getQuantity());
+        fixList.add(status);
+
+        return FixedMessage1.FixBodyResponse(fixList,"D");
+    }
+
     public String buyOrSell() throws IOException {
+        fixList = new ArrayList<String>();
         try {
             while (true) {
                 _out.println("Do you wish to Buy Or Sell?.");
@@ -47,7 +66,7 @@ public class FixMessages {
                     }
                     fixList.add(line);
                     while(true) {
-                        _out.println("Enter your price: ");
+                        _out.println("Amount you are willing to spend: ");
                         line = _in.nextLine();
                         _out.println(line);
                         try {
@@ -61,12 +80,12 @@ public class FixMessages {
                     // status to buy
                     fixList.add("1");
 
-                    _out.println("Enter the desired stock you would like to purchace.");
+                    _out.println("Item you would like to purchace.");
                     line =_in.nextLine();
                     _out.println(line);
                     fixList.add(line);
                     while(true) {
-                        _out.println("Enter item quantity desired");
+                        _out.println("Item quantity ");
                         line = _in.nextLine();
                         _out.println(line);
                         try {
@@ -121,11 +140,7 @@ public class FixMessages {
                     }
                     fixList.add(line);
                 }
-                Encoder FixedMessage1 = new Encoder();
                 return FixedMessage1.MessageEncoder(fixList,"D");
-                // send msg to the router
-                // ChainOfCommand chainHandler = new ChainOfCommand();
-                // chainHandler.HandleChain(return_this);
             }
         } finally {}
     }

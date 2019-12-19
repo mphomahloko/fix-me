@@ -42,6 +42,7 @@ public class MarketExecutor {
 	}
 
 	private void marketStock() {
+		String text;
 		_out.println("\nMARKET " + _marketId + " AVAILABLE STOCK");
 		for (Product product: App.products) {
 			_out.println("->" + product);

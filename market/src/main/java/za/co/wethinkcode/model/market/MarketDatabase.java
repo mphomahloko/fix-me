@@ -62,14 +62,9 @@ public class MarketDatabase
 
         this.statement = connection.createStatement();
 
-//        String sql = "REPLACE INTO markets (ProductName, ProductCode, Price, Quantity, MarketName)" +
-//                "VALUES" +
-//                "( '"+ ProductName + "', " +
-//                ProductCode + "', " +
-//                Price + ", " +
-//                Quantity + ", " +
-//                "'" + MarketName + "' )";
-
+//        String sql =  "REPLACE INTO markets (ProductName, ProductCode, Price, Quantity, MarketName)"  +
+//                "VALUES( '" + ProductName + "' ,  '" + ProductCode + "' , " + Price + "," + Quantity + ", '" + MarketName + "' )";
+//
 
 //        this.statement.execute(sql);
         this.connection.commit();

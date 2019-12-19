@@ -32,12 +32,14 @@ public class Broker {
 	private JTextPane _messageArea; // = new JTextArea(16, 50);
 
 	// Text Decoration
-	private String green = "co:green";
-	private String grey = "co:grey";
-	private String red = "co:red";
-	private String blue = "co:blue";
-	private String purple = "co:purple";
-	private String reset = "co:reset";
+	public String blue = "co:blue";
+	public String green = "co:green";
+	public String grey = "co:grey";
+	public String purple = "co:purple";
+	public String red = "co:red";
+	public String teal = "co:teal";
+	public String orange = "co:orange";
+	public String reset = "co:reset";
 
     public Broker() {
 		_frame = new JFrame("Broker");
@@ -134,11 +136,13 @@ public class Broker {
 	public void viewMessage(String message, String type) throws IOException, BadLocationException {
 		_messageArea.setEditable(true);
 
-		String green = "style=\"color: rgb(162,184,36); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String green = "style=\"color: rgb(161,221,112); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
 		String grey = "style=\"color: rgb(120,120,120); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
-		String red = "style=\"color: rgb(255,107,104); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
-		String blue = "style=\"color: rgb(83,148,236); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
-		String purple = "style=\"color: rgb(177, 79, 209); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String red = "style=\"color: rgb(199,12,58); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String teal = "style=\"color: rgb(0, 189, 170); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String purple = "style=\"color: rgb(133, 89, 165); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String blue = "style=\"color: rgb(40, 150, 150); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
+		String orange = "style=\"color: rgb(244, 89, 4); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
 		String reset = "style=\"color: rgb(0,0,0); font-weight: bold; font-family: Consolas, monaco, monospace;\"";
 
 		String text;
@@ -147,7 +151,7 @@ public class Broker {
 
 
 		if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal")) {
-			String norm = (this._brokerId == 0) ? ("[<span " + grey + ">" + "FIX-ME" + "</span>" + "] ") : ("[<span " + purple + ">" + "BROKER" + "</span>" + "<span " + reset + "> :" + this._brokerId + "</span>] ");
+			String norm = (this._brokerId == 0) ? ("[<span " + teal + ">" + "FIX-ME" + "</span>" + "] ") : ("[<span " + purple + ">" + "BROKER" + "</span>" + "<span " + reset + "> :" + this._brokerId + "</span>] ");
 			mesType = (type.toLowerCase().contains("error") ? ("[<span " + red + ">" + "ERROR" + "</span>" + "] ") : norm);
 		}
 
@@ -156,6 +160,7 @@ public class Broker {
 		replaceString = replaceString.replace("co:green", ("<span " + green + ">"));
 		replaceString = replaceString.replace("co:purple", ("<span " + purple + ">"));
 		replaceString = replaceString.replace("co:red", ("<span " + red + ">"));
+		replaceString = replaceString.replace("co:teal", ("<span " + teal + ">"));
 		replaceString = replaceString.replace("co:reset", "</span>");
 
 

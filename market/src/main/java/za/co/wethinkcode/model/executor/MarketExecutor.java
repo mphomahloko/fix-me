@@ -5,12 +5,16 @@ import java.io.PrintWriter;
 
 import java.net.Socket;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import za.co.wethinkcode.core.App;
+import za.co.wethinkcode.model.TextDecorator;
 import za.co.wethinkcode.model.product.Product;
 
 public class MarketExecutor {
+
+	public static TextDecorator _td = new TextDecorator();
 
 	private static MarketExecutor _market = new MarketExecutor();
 
@@ -33,7 +37,7 @@ public class MarketExecutor {
 	private void getMarketId() {
 		String line = _in.nextLine();
 		System.out.println(line);
-		this._marketId = Integer.parseInt(line.substring(19));
+		this._marketId = Integer.parseInt(line.substring((line.length() - 6),line.length()));
 		return ;
 	}
 
@@ -45,7 +49,7 @@ public class MarketExecutor {
 		return ;
 	}
 
-	public void run() throws IOException, InterruptedException {
+	public void run() throws IOException, NoSuchElementException {
 		try {
 			this._socket = new Socket(_serverAddress, _PORT);
 			this._in = new Scanner(_socket.getInputStream());
@@ -62,6 +66,7 @@ public class MarketExecutor {
 					marketStock();
 				}
 			}
-		} finally {}
+		}
+		finally {}
 	}
 }

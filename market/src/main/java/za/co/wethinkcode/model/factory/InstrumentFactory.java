@@ -4,6 +4,7 @@ import za.co.wethinkcode.model.product.Product;
 import za.co.wethinkcode.model.instruments.Bread;
 import za.co.wethinkcode.model.instruments.Bacon;
 import za.co.wethinkcode.model.instruments.Egg;
+import za.co.wethinkcode.model.instruments.Item;
 import za.co.wethinkcode.model.instruments.details.InstrumentDetails;
 
 // Product factory

@@ -9,11 +9,7 @@ import java.net.Socket;
 import java.net.ServerSocket;
 
 import java.sql.SQLException;
-import java.util.Set;
-import java.util.Scanner;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
@@ -22,7 +18,7 @@ import java.util.concurrent.ExecutorService;
  *
  */
 public class Router {
-    private static TextDecorator _td = new TextDecorator();
+    public static TextDecorator _td = new TextDecorator();
     private static Set<Integer> _ids = new HashSet<>();
     // The set of all the print writers for all the brokers, used for broadcast.
     private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
@@ -31,7 +27,7 @@ public class Router {
     private static FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
 
     private static int _posibleID = 100000;
-    public Router() throws IOException, SQLException {
+    public Router() throws IOException, SQLException, NoSuchElementException {
         System.out.println(_td.viewMessage("Router is running...","normal"));
 
         fixMessageDatabase.createTransactionTable();
@@ -53,6 +49,9 @@ public class Router {
                     pool.execute(new ManageBroker(listener.accept()));
                 }
             } catch (IOException e) {}
+            catch (NoSuchElementException e) {
+                System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
+            }
         }
     }
 
@@ -76,7 +75,7 @@ public class Router {
                     }
                 }
                 _out.println("your broker id is: " + _id);
-                System.out.println(_td.viewMessage(("[" + _td.blue + "BROKER " + _td.reset + ": " +  _id + "] has successfully connected..."),"none"));
+                System.out.println(_td.viewMessage(("[" + _td.purple + "BROKER " + _td.reset + ": " +  _id + "] has successfully connected..."),"none"));
                 Map<Integer,PrintWriter> broker = new HashMap<Integer,PrintWriter>();
                 broker.put(_id, _out);
                 _brokerWriters.add(broker);
@@ -107,16 +106,25 @@ public class Router {
 
                 }
 
-            } catch (IOException | SQLException ex) {
-		    System.out.println(ex);
-	    } finally {
+            }
+            catch (IOException | SQLException ex) {
+                System.out.println(ex);
+            }
+            catch (NoSuchElementException e) {
+                System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
+            }
+            finally {
 		    if (_ids.contains(_id)) {
 			    _ids.remove(_id);
 		    }
-		    System.out.println("Broker " + _id + " has disconnected...");
+		    System.out.println(_td.viewMessage(("[" + _td.red + "BROKER " + _td.reset + ": " +  _id + "] has disconnected..."),"none"));
 		    try {
 			    _socket.close();
 		    } catch (IOException e) {}
+            catch (NoSuchElementException e)
+            {
+                System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
+            }
 	    }
         }
     }
@@ -135,6 +143,10 @@ public class Router {
                     pool.execute(new ManageMarket(listener.accept()));
                 }
             } catch (IOException e) {}
+            catch (NoSuchElementException e)
+            {
+                System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
+            }
         }
     }
 
@@ -159,7 +171,8 @@ public class Router {
                     }
                 }
 //                _out.println("your market id is: " + _id);
-                _out.println(_td.viewMessage(("[" + _td.purple + "MARKET " + _td.reset + ": " +  _id + "] you market is " + _id),"none"));
+                _out.println(_td.viewMessage(("[" + _td.blue + "MARKET " + _td.reset + ": " +  _id + "] you market is " + _id),"none"));
+                System.out.println(_td.viewMessage(("[" + _td.blue + "MARKET " + _td.reset + ": " +  _id + "] has successfully connected..."),"none"));
 
                 Map<Integer,PrintWriter> market = new HashMap<Integer,PrintWriter>();
                 market.put(_id, _out);
@@ -174,6 +187,10 @@ public class Router {
                     }
                 }
             } catch (IOException e) {}
+            catch (NoSuchElementException e)
+            {
+                System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ public class FixMessageDatabase
         System.out.println(">> fix >> :" + fixMessage);
         int _brokerId = Integer.parseInt(fixMessage.substring(fixMessage.indexOf("49=")+3, fixMessage.indexOf("49=")+9));
         int _marketId = Integer.parseInt(fixMessage.substring(fixMessage.indexOf("56=")+3, fixMessage.indexOf("56=")+9));
-        
+
         String sql = "REPLACE INTO transactions (BrokerID, BrokerFixedMessage, MarketID, MarketFixedMessage)" +
                 "VALUES(" + _brokerId + ", '" + fixMessage + "' ," +  _marketId + ", '" + fixMessage + "')";
 

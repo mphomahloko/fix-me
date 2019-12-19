@@ -5,6 +5,7 @@ import za.co.wethinkcode.model.Router;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 /**
  * Router App
@@ -12,17 +13,19 @@ import java.sql.SQLException;
  */
 public class App {
 //  public FixMessageDatabase fixMessageDatabase;
+  static Router router;
 
   public static void main(String[] args) {
     try {
-      Router router = new Router();
-
-//      FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
-//      fixMessageDatabase.createTransactionTable();
-
-    } catch (IOException | SQLException e) {
+      router = new Router();
+    }
+    catch (IOException | SQLException e)
+    {
       System.out.println(e);
     }
+    catch (NoSuchElementException e)
+    {
+      System.out.println(router._td.viewMessage("Broker | Market Disconnection Detected!","error"));
     }
-
+  }
 }

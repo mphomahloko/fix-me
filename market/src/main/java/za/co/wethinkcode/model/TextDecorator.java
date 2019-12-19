@@ -23,7 +23,7 @@ public class TextDecorator {
         String replaceString = message;
 
         if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal"))
-            mesType = (type.toLowerCase().contains("error") ? ("[" + red + "ERROR" + reset + "] ") : ("[" + grey + "FIX-ME" + reset + "] "));
+            mesType = (type.toLowerCase().contains("error") ? ("[" + red + "ERROR" + reset + "] ") : ("[" + blue + "FIX-ME" + reset + "] "));
 
         replaceString = replaceString.replace("co:blue", blue);
         replaceString = replaceString.replace("co:grey", grey);

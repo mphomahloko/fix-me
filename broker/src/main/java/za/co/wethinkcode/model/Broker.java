@@ -102,7 +102,7 @@ public class Broker {
     private void getBrokerId() throws IOException, BadLocationException {
 	    String line = _in.nextLine();
 //	    _messageArea.append(line + "\n");
-		viewMessage(line, "normal");
+		viewMessage(line, "none");
 	    this._brokerId =  Integer.parseInt(line.substring(19));
 	    return ;
     }
@@ -120,7 +120,7 @@ public class Broker {
 				while (_in.hasNextLine()) {
 					String line = _in.nextLine();
 //					_messageArea.append(line + "\n");
-					viewMessage(line, "normal");
+					viewMessage(line, "none");
 				}
 			}
 	    } finally {
@@ -145,10 +145,11 @@ public class Broker {
 		String mesType = "";
 		String replaceString = message;
 
-		String norm = (this._brokerId == 0) ? ("[<span " + blue + ">" + "FIX-ME" + "</span>" + "] ") : ("[<span " + blue + ">" + "BROKER" + "</span>" + "<span " + reset + "> :" + this._brokerId + "</span>] ");
 
-		if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal"))
+		if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal")) {
+			String norm = (this._brokerId == 0) ? ("[<span " + grey + ">" + "FIX-ME" + "</span>" + "] ") : ("[<span " + purple + ">" + "BROKER" + "</span>" + "<span " + reset + "> :" + this._brokerId + "</span>] ");
 			mesType = (type.toLowerCase().contains("error") ? ("[<span " + red + ">" + "ERROR" + "</span>" + "] ") : norm);
+		}
 
 		replaceString = replaceString.replace("co:blue", ("<span " + blue + ">"));
 		replaceString = replaceString.replace("co:grey", ("<span " + grey + ">"));

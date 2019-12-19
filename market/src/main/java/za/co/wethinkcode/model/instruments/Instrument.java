@@ -7,6 +7,7 @@ public abstract class Instrument {
 	protected String _name;
 	protected InstrumentDetails _details;
 	private static long _idGenerated = 0;
+	protected boolean _bought = false;
 
 	protected Instrument(String name, InstrumentDetails details) {
 		this._name = name;

@@ -84,12 +84,10 @@ public class Router {
                 while (true) {
                     String fixedMsg;
                     // 1. get fixed msg
-                    // fixedMsg =  _in.nextLine();
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
                     System.out.println(fixedMsg);
                     fixMessageDatabase.saveToDataBase(fixedMsg);
-
                     // 2. send to desired market
                     recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
@@ -100,7 +98,15 @@ public class Router {
                             }
                         }
                         // 3. wait for responce from market
-                        
+                        fixedMsg = _in.nextLine();
+                        for (Map<Integer, PrintWriter> wr : _brokerWriters) {
+                            for (Integer identifier: wr.keySet()) { 
+                                if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
+                                    PrintWriter w = wr.get(identifier);
+                                    w.println(fixedMsg);
+                                }
+                            }
+                        }
                         // 4.  send back to broker
                         
                     }

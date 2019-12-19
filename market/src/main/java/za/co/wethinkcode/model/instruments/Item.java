@@ -9,7 +9,7 @@ public class Item extends Instrument implements Product {
 
 	public Item(String name, InstrumentDetails details) {
 		super(name, details);
-		return;
+		return ;
 	}
 
 	public void updateInstrumentDetails() {
@@ -18,11 +18,9 @@ public class Item extends Instrument implements Product {
 			return ;
 		if ((dets.getPrice() >= this._details.getPrice()) && (dets.getQty() <= this._details.getQty())) {
 				this._details = new InstrumentDetails(this._details.getPrice(), this._details.getQty() - dets.getQty());
-				System.out.println(this._name);
-				// Accept fixedMsg
+				this._bought = true;
 				return ;
 		}
-		// Reject fixedMsg
 	}
 
 	@Override
@@ -36,5 +34,17 @@ public class Item extends Instrument implements Product {
 	public String toString() {
 		return this._name + " price: R" + _details.getPrice() + " available items: " + this._details.getQty();
 	}
+
+	@Override
+	// If iteam was bought set back to false 
+	public boolean itemWasBought() {
+		if (this._bought) {
+			this._bought = false;
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public String instrumentName() { return this._name; }
 
 }

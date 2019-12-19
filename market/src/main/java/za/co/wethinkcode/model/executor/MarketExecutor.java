@@ -62,7 +62,7 @@ public class MarketExecutor {
 				while (_in.hasNextLine()) {
 					input = _in.nextLine();
 					System.out.println(input);
-					App.tower.updatedProducts(input);
+					System.out.println(App.tower.updatedProducts(input));
 					marketStock();
 				}
 			}

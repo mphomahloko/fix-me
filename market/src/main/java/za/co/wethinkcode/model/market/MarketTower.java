@@ -2,22 +2,29 @@ package za.co.wethinkcode.model.market;
 
 import za.co.wethinkcode.model.instruments.details.InstrumentDetails;
 import za.co.wethinkcode.model.Decoder;
+import za.co.wethinkcode.model.FixMessages;
 
 public class MarketTower extends Tower {
 
 	// rejecting or accepting an order
 	public InstrumentDetails processOrder() {
 		Decoder decode = new Decoder(this._order);
-		// go check all item names first
 		InstrumentDetails dets = new InstrumentDetails(Integer.parseInt(decode.getPrice()), Integer.parseInt(decode.getQuantity()));
-		dets.setName(decode.getProduct());
+		if (this._itemExists(decode.getProduct().toLowerCase())) {
+			dets.setName(decode.getProduct());
+		}
+		else { dets.setName(""); }
 		return dets;
 	}
 
 	// return fixedmsg
-	public void updatedProducts(String order) {
+	public String updatedProducts(String order) {
+		String status = "0";
 		this._order = order;
 		_detailsChanged();
-		return ;
+		FixMessages fix = new FixMessages();
+		if (this._transactionDone()) status = "1";
+		System.out.print(fix.responceFromMarket(order, status));
+		return fix.responceFromMarket(order, status);
 	}
 }

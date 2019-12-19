@@ -1,6 +1,7 @@
 package za.co.wethinkcode.model.market;
 
 import za.co.wethinkcode.model.instruments.Item;
+import za.co.wethinkcode.model.product.Product;
 
 import java.sql.*;
 
@@ -53,7 +54,7 @@ public class MarketDatabase
         this.closeDataBase();
     }
 
-    public void saveToDataBase(Item item) throws SQLException
+    public void saveToDataBase(Product product) throws SQLException
     {
 
         this.connectDataBase();

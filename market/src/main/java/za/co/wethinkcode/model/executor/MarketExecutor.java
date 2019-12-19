@@ -56,6 +56,7 @@ public class MarketExecutor {
 			this._in = new Scanner(_socket.getInputStream());
 			this._out = new PrintWriter(_socket.getOutputStream(), true);
 			String input;
+			String responce;
 			getMarketId();
 			// send market products to brokers for trading.
 			marketStock();
@@ -63,7 +64,9 @@ public class MarketExecutor {
 				while (_in.hasNextLine()) {
 					input = _in.nextLine();
 					System.out.println(input);
-					System.out.println(App.tower.updatedProducts(input));
+					responce = App.tower.updatedProducts(input);
+					_out.println(responce);
+					System.out.println(responce);
 					marketStock();
 				}
 			}

@@ -59,7 +59,6 @@ public class FixMessageDatabase
 
         this.statement = connection.createStatement();
 
-        System.out.println(">> fix >> :" + fixMessage);
         int _brokerId = Integer.parseInt(fixMessage.substring(fixMessage.indexOf("49=")+3, fixMessage.indexOf("49=")+9));
         int _marketId = Integer.parseInt(fixMessage.substring(fixMessage.indexOf("56=")+3, fixMessage.indexOf("56=")+9));
 

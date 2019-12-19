@@ -99,14 +99,9 @@ public class Router {
                         }
                         // 3. wait for responce from market
                         fixedMsg = _in.nextLine();
-                        for (Map<Integer, PrintWriter> wr : _brokerWriters) {
-                            for (Integer identifier: wr.keySet()) { 
-                                if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
-                                    PrintWriter w = wr.get(identifier);
-                                    w.println(fixedMsg);
-                                }
-                            }
-                        }
+                        _out.println(fixedMsg);
+                        System.out.println(fixedMsg);
+                        fixMessageDatabase.saveToDataBase(fixedMsg);
                         // 4.  send back to broker
                         
                     }

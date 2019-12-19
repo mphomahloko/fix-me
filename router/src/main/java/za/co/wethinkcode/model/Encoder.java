@@ -42,7 +42,7 @@ public class Encoder {
         fixMessage ="";
         bodyString = "";
         checkSumString = "";
-        bodyString += ""+ "|49=" + fixList.get(0);
+        bodyString += "|49=" + fixList.get(0);
         bodyString += "|56=" + fixList.get(1);
         bodyString += "|44=" + fixList.get(2);
         bodyString += "|460=" + fixList.get(3);
@@ -50,6 +50,7 @@ public class Encoder {
         bodyString += "|39=" + fixList.get(5) + "|";
         buildFixHead(msgType,bodyString);
         buildCheckSum(bodyString);
+        fixMessage = fixMessage + beginString + bodyString + checkSumString;
         return fixMessage;
     }
 

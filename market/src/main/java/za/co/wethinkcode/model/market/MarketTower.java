@@ -24,7 +24,6 @@ public class MarketTower extends Tower {
 		_detailsChanged();
 		FixMessages fix = new FixMessages();
 		if (this._transactionDone()) status = "1";
-		System.out.print(fix.responceFromMarket(order, status));
 		return fix.responceFromMarket(order, status);
 	}
 }

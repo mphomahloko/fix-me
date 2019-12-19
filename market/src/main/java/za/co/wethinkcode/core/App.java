@@ -21,9 +21,9 @@ public class App {
 	private static List<String> fileContents = new ArrayList<String>();
 	public static List<Product>  products = new ArrayList<Product>();
 	public static List<String>  logMessage = new ArrayList<String>();
+	public static MarketTower	tower = new MarketTower();
 
 	public static void main(String[] args) {
-		MarketTower tower = new MarketTower();
 		try (BufferedReader reader = new BufferedReader(new FileReader(args[0]))) {
 			marketStockReader(reader, args[0]);
 			parseStock();
@@ -36,7 +36,7 @@ public class App {
 			System.out.print(ex.getMessage());
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
-		}
+		} catch (Exception ex) {}
     }
 
     private static void marketStockReader(BufferedReader reader, String fileName) throws IOException {

@@ -17,8 +17,6 @@ public class MarketExecutor {
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5001;
 
-	public String Order = "Egg 2 3";
-
 	private Socket _socket;
 	private Scanner _in;
 	private PrintWriter _out;
@@ -47,7 +45,7 @@ public class MarketExecutor {
 		return ;
 	}
 
-	public void run() throws IOException {
+	public void run() throws IOException, InterruptedException {
 		try {
 			this._socket = new Socket(_serverAddress, _PORT);
 			this._in = new Scanner(_socket.getInputStream());
@@ -57,8 +55,12 @@ public class MarketExecutor {
 			// send market products to brokers for trading.
 			marketStock();
 			while (true) {
-				input = _in.nextLine();
-				System.out.println(input);
+				while (_in.hasNextLine()) {
+					input = _in.nextLine();
+					System.out.println(input);
+					App.tower.updatedProducts(input);
+					marketStock();
+				}
 			}
 		} finally {}
 	}

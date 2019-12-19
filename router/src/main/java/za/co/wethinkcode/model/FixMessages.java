@@ -12,7 +12,7 @@ public class FixMessages {
     Scanner _in;
     PrintWriter _out;
     
-    List<String> fixList = new ArrayList<String>();
+    List<String> fixList;
     String fixed = "";
 
     public FixMessages(int id, Scanner _in, PrintWriter _out) {
@@ -22,6 +22,7 @@ public class FixMessages {
     }
 
     public String buyOrSell() throws IOException {
+        fixList = new ArrayList<String>();
         try {
             while (true) {
                 _out.println("Do you wish to Buy Or Sell?.");
@@ -47,7 +48,7 @@ public class FixMessages {
                     }
                     fixList.add(line);
                     while(true) {
-                        _out.println("Enter your price: ");
+                        _out.println("Amount you are willing to spend: ");
                         line = _in.nextLine();
                         _out.println(line);
                         try {
@@ -61,12 +62,12 @@ public class FixMessages {
                     // status to buy
                     fixList.add("1");
 
-                    _out.println("Enter the desired stock you would like to purchace.");
+                    _out.println("Item you would like to purchace.");
                     line =_in.nextLine();
                     _out.println(line);
                     fixList.add(line);
                     while(true) {
-                        _out.println("Enter item quantity desired");
+                        _out.println("Item quantity ");
                         line = _in.nextLine();
                         _out.println(line);
                         try {

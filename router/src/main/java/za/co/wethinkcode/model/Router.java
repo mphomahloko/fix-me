@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -23,6 +27,8 @@ public class Router {
     // The set of all the print writers for all the brokers, used for broadcast.
     private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
     private static Set<Map<Integer,PrintWriter>> _marketWriters = new HashSet<>();
+    public static Lock lock = new ReentrantLock();
+    public static Condition conditionMet = lock.newCondition();
 
     private static int _posibleID = 100000;
     public Router() throws IOException {
@@ -79,23 +85,25 @@ public class Router {
                     // 1. get fixed msg
                     // fixedMsg =  _in.nextLine();
                     fixedMsg = fix.buyOrSell();
-                    _out.println(fixedMsg);
-                    System.out.println(fixedMsg);
-                    // 2. send to desired market
-                    Decoder recieverID = new Decoder(fixedMsg);
-                    for (Map<Integer, PrintWriter> writers : _marketWriters) {
-                        for (Integer identifier: writers.keySet()) { 
-                            if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
-                                PrintWriter writer = writers.get(identifier);
-                                writer.println(fixedMsg);
+                    // while (_in.hasNextLine()) {
+                        _out.println(fixedMsg);
+                        System.out.println(fixedMsg);
+                        // 2. send to desired market
+                        Decoder recieverID = new Decoder(fixedMsg);
+                        for (Map<Integer, PrintWriter> writers : _marketWriters) {
+                            for (Integer identifier: writers.keySet()) { 
+                                if (Integer.parseInt(recieverID.getReciverID()) == identifier) {
+                                    PrintWriter writer = writers.get(identifier);
+                                    writer.println(fixedMsg);
+                                }
                             }
                         }
+                        // 3. wait for responce from market
+                        
+                        // 4.  send back to broker
+                        
                     }
-                    // 3. wait for responce from market
-
-                    // 4.  send back to broker
-
-                }
+                // }
 
             } catch (IOException ex) {
 		    System.out.println(ex);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public abstract class Tower {
 	private ArrayList<Product> _brokersObserving = new ArrayList<Product>();
+	protected String _order;
 
 	public void register(Product product) {
 		this._brokersObserving.add(product);

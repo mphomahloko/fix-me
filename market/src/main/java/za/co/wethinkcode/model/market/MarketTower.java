@@ -8,16 +8,20 @@ public class MarketTower extends Tower {
 	// rejecting or accepting an order
 	public InstrumentDetails processOrder() {
 		MarketExecutor _market = MarketExecutor.getMarket();
-		String[] instrumentDetails = null;
-		instrumentDetails = _market.Order.split(" ");
+		// String[] instrumentDetails = null;
+		// while (_market._in.hasNextLine()){
+
+			System.out.println(this._order);
+		// }
 		InstrumentDetails dets;
 //		if (instrumentDetails[0].equals("Egg")) {
-			dets = new InstrumentDetails(Integer.valueOf(instrumentDetails[1]),Integer.valueOf(instrumentDetails[2]));
+			dets = new InstrumentDetails(2, 2);
 		//}
 		return dets; 
 	}
 
-	public void updatedProducts() {
+	public void updatedProducts(String order) {
+		this._order = order;
 		_detailsChanged();
 		return ;
 	}

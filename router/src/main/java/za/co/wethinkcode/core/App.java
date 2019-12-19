@@ -12,6 +12,6 @@ public class App {
     public static void main( String[] args ) {
       try {
         Router router = new Router();
-      }catch(IOException e) {}
+      }catch(Exception ex) {}
     }
 }

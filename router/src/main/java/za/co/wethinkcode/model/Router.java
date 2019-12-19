@@ -117,7 +117,7 @@ public class Router {
 		    if (_ids.contains(_id)) {
 			    _ids.remove(_id);
 		    }
-		    System.out.println(_td.viewMessage(("[" + _td.red + "BROKER " + _td.reset + ": " +  _id + "] has disconnected..."),"none"));
+		    System.out.println(_td.viewMessage(("[" + _td.orange + "BROKER " + _td.reset + ": " +  _id + "] has disconnected..."),"none"));
 		    try {
 			    _socket.close();
 		    } catch (IOException e) {}

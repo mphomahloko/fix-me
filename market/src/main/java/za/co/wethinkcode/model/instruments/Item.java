@@ -16,10 +16,18 @@ public class Item extends Instrument implements Product {
 		InstrumentDetails dets = _marketTower.processOrder();
 		if (!(this._name.toLowerCase().equals(dets.getName())))
 			return ;
-		if ((dets.getPrice() >= this._details.getPrice()) && (dets.getQty() <= this._details.getQty())) {
-				this._details = new InstrumentDetails(this._details.getPrice(), this._details.getQty() - dets.getQty());
+		if (dets.getType().equals("1")) {
+			if ((dets.getPrice() >= this._details.getPrice()) && (dets.getQty() <= this._details.getQty())) {
+					this._details = new InstrumentDetails(this._details.getPrice(), this._details.getQty() - dets.getQty());
+					this._bought = true;
+					return ;
+			}
+		} else {
+			if ((dets.getPrice() >= this._details.getPrice()) && (dets.getQty() >= 1)) {
+				this._details = new InstrumentDetails(this._details.getPrice(), this._details.getQty() + dets.getQty());
 				this._bought = true;
 				return ;
+		}
 		}
 	}
 

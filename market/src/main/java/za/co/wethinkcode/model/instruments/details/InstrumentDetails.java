@@ -4,6 +4,7 @@ public class InstrumentDetails {
 	private int _price;
 	private int _qty;
 	private String _name;
+	private String _type;
 
 	public InstrumentDetails(int price, int qty) {
 		this._price = price > 1 ? price : 1; // can not have a price less than R1. please change type to float
@@ -19,5 +20,11 @@ public class InstrumentDetails {
 		this._name = name.toLowerCase();
 	}
 
+	public void setType(String type) {
+		this._type = type.toLowerCase();
+	}
+
 	public String getName() { return this._name; }
+
+	public String getType() { return this._type; }
 }

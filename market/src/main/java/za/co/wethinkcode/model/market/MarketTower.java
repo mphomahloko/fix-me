@@ -12,8 +12,12 @@ public class MarketTower extends Tower {
 		InstrumentDetails dets = new InstrumentDetails(Integer.parseInt(decode.getPrice()), Integer.parseInt(decode.getQuantity()));
 		if (this._itemExists(decode.getProduct().toLowerCase())) {
 			dets.setName(decode.getProduct());
+			dets.setType(decode.getBuyorSell());
 		}
-		else { dets.setName(""); }
+		else {
+			dets.setName("");
+			dets.setType("");
+		}
 		return dets;
 	}
 

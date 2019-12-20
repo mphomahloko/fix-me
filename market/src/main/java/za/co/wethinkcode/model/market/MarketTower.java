@@ -19,11 +19,11 @@ public class MarketTower extends Tower {
 
 	// return fixedmsg
 	public String updatedProducts(String order) {
-		String status = "0";
+		String status = "8";
 		this._order = order;
 		_detailsChanged();
 		FixMessages fix = new FixMessages();
-		if (this._transactionDone()) status = "1";
+		if (this._transactionDone()) status = "2";
 		return fix.responceFromMarket(order, status);
 	}
 }

@@ -87,7 +87,7 @@ public class Router {
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
                     System.out.println(fixedMsg);
-                    fixMessageDatabase.saveToDataBase(fixedMsg);
+                    // fixMessageDatabase.saveToDataBase(fixedMsg);
                     // 2. send to desired market
                     recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
@@ -99,15 +99,15 @@ public class Router {
                         }
                         // 3. wait for responce from market
                         fixedMsg = _in.nextLine();
+                        // 4.  send back to broker
                         _out.println(fixedMsg);
                         System.out.println(fixedMsg);
-                        fixMessageDatabase.saveToDataBase(fixedMsg);
-                        // 4.  send back to broker
+                        // fixMessageDatabase.saveToDataBase(fixedMsg);
                         
                     }
                 }
             }
-            catch (IOException | SQLException ex) {
+            catch (IOException /*| SQLException*/ ex) {
                 System.out.println(ex);
             }
             catch (NoSuchElementException e) {

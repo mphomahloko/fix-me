@@ -60,7 +60,12 @@ public class FixMessages {
                         _out.println("Select market ID ");
                         line = _in.nextLine();
                         _out.println(line);
-                        break;
+                        try {
+                            Integer.parseInt(line);
+                            break ;
+                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                            _out.println("Invalid ID format.");
+                        }
                     }
                     fixList.add(line);
                     while(true) {
@@ -103,7 +108,12 @@ public class FixMessages {
                         _out.println("Select the market ID ");
                         line = _in.nextLine();
                         _out.println(line);
-                        break;
+                        try {
+                            Integer.parseInt(line);
+                            break ;
+                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                            _out.println("Invalid ID format.");
+                        }
                     }
                     fixList.add(line);
                     while(true) {

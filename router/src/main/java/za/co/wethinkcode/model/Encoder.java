@@ -13,9 +13,9 @@ public class Encoder {
     private     String  checkSumString = "";
 
 
-    public Encoder() { return ; }
+    public Encoder() throws NullPointerException { return ; }
 
-    public String MessageEncoder(List<String> fixList, String msgType) {
+    public String MessageEncoder(List<String> fixList, String msgType) throws NullPointerException {
         fixMessage ="";
         bodyString = "";
         checkSumString = "";
@@ -28,7 +28,7 @@ public class Encoder {
         return fixMessage;
     }
 
-    private void FixBodybuilder(List<String> fixList, String msgType){
+    private void FixBodybuilder(List<String> fixList, String msgType) throws NullPointerException {
         bodyString += ""+ "|49=" + fixList.get(0);
         bodyString += "|56=" + fixList.get(1);
         bodyString += "|44=" + fixList.get(2);
@@ -38,7 +38,7 @@ public class Encoder {
 
     }
 
-    public String FixBodyResponse(List<String> fixList, String msgType) {
+    public String FixBodyResponse(List<String> fixList, String msgType) throws NullPointerException {
         fixMessage ="";
         bodyString = "";
         checkSumString = "";
@@ -54,18 +54,18 @@ public class Encoder {
         return fixMessage;
     }
 
-    private void buildFixHead(String msgType, String bodyString){
+    private void buildFixHead(String msgType, String bodyString) throws NullPointerException {
         beginString = beginString + "9=" + Integer.toString(bodyLength(bodyString)) + "|35=" + msgType;
     }
 
-    private int bodyLength(String bodyString){
+    private int bodyLength(String bodyString) throws NullPointerException {
         return (bodyString.length());
     }
 
     // You need to sum every byte in the message up to but not including the checksum field.
     // Then take this number modulo 256, and print it as a number of
     // 3 characters with leading zeroes (e.g. checksum=13 would become 013).
-    public void buildCheckSum(String bodyString){
+    public void buildCheckSum(String bodyString) throws NullPointerException {
         for (int i = 0; i < bodyString.length(); i++){
             char c = bodyString.charAt(i);
             asciiValue = (int)c;

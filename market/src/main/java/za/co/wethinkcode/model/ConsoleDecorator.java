@@ -1,17 +1,16 @@
 package za.co.wethinkcode.model;
 
-public class TextDecorator {
+public class ConsoleDecorator {
+    public static String blue = "co:blue";
+    public static String green = "co:green";
+    public static String grey = "co:grey";
+    public static String purple = "co:purple";
+    public static String red = "co:red";
+    public static String teal = "co:teal";
+    public static String orange = "co:orange";
+    public static String reset = "co:reset";
 
-    public String blue = "co:blue";
-    public String green = "co:green";
-    public String grey = "co:grey";
-    public String purple = "co:purple";
-    public String red = "co:red";
-    public String teal = "co:teal";
-    public String orange = "co:orange";
-    public String reset = "co:reset";
-
-    public String viewMessage(String message, String type) {
+    public static String viewMessage(String message, String type) throws NullPointerException {
 
         green    = "\033[1;38;2;161;221;112m";
         grey     = "\033[1;38;2;120;120;120m";
@@ -26,16 +25,12 @@ public class TextDecorator {
         String mesType = "";
         String replaceString = message;
 
-        if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal"))
-            mesType = (type.toLowerCase().contains("error") ? ("[" + red + "ERROR" + reset + "] ") : ("[" + teal + "FIX-ME" + reset + "] "));
-
         replaceString = replaceString.replace("co:blue", blue);
         replaceString = replaceString.replace("co:grey", grey);
         replaceString = replaceString.replace("co:green", green);
         replaceString = replaceString.replace("co:purple", purple);
         replaceString = replaceString.replace("co:red", red);
         replaceString = replaceString.replace("co:reset", reset);
-
 
         text = mesType + replaceString;
 

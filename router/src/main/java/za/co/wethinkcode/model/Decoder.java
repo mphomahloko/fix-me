@@ -8,7 +8,7 @@ public class Decoder {
     String fixedMessage;
     List<String> subDivder = new ArrayList<String>();
 
-    public Decoder(String msg) {
+    public Decoder(String msg) throws NullPointerException {
         fixedMessage = msg;
         String[] subFixMessage = msg.split("\\|");
         for (int i = 0; i < subFixMessage.length; i++){
@@ -17,7 +17,7 @@ public class Decoder {
     }
 
     // deteremine a buyer/seller method
-    public String getSenderID() {
+    public String getSenderID() throws NullPointerException {
 
         for (int i = 0; i < subDivder.size(); i++)
         {
@@ -29,7 +29,7 @@ public class Decoder {
     }
 
     // determine sender and reciever id
-    public String getReciverID() {
+    public String getReciverID() throws NullPointerException {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -40,7 +40,7 @@ public class Decoder {
     }
 
     // determine whether we are selling or buying
-    public String getBuyorSell() {
+    public String getBuyorSell() throws NullPointerException {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -52,7 +52,7 @@ public class Decoder {
 
 
     // gives the value of the tag 460, that is the product
-    public String getProduct() {
+    public String getProduct() throws NullPointerException {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -63,7 +63,7 @@ public class Decoder {
     }
 
     // gives the value of the tag 53, that is the value of the number of products
-    public String getQuantity() {
+    public String getQuantity() throws NullPointerException {
         for (int i = 0; i < subDivder.size(); i++)
         {
             String[] res = subDivder.get(i).split("=");
@@ -74,7 +74,7 @@ public class Decoder {
     }
 
     // determine afordable price 
-    public String getPrice() {
+    public String getPrice() throws NullPointerException {
         for (int i = 0; i < subDivder.size(); i++) {
             String[] res = subDivder.get(i).split("=");
             if (res[0].equals("44"))

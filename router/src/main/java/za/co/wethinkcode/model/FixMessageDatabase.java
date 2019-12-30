@@ -9,7 +9,7 @@ public class FixMessageDatabase
     private ResultSet resultSet     = null;
 
     // this should be placed in a folder where all components can access
-    public void connectDataBase() throws SQLException
+    public void connectDataBase() throws NullPointerException, SQLException
     {
 
         //JDBC driver name and database URL
@@ -24,7 +24,7 @@ public class FixMessageDatabase
     }
 
     // this should be placed in a folder where all components can access
-    public void closeDataBase() throws SQLException
+    public void closeDataBase() throws NullPointerException, SQLException
     {
         // STEP 4: Clean-up environment
         this.statement.close();
@@ -33,7 +33,7 @@ public class FixMessageDatabase
 
     // Table containing transactions between Market and the Broker.
     // keeps record of Fix Messages
-    public void createTransactionTable() throws SQLException
+    public void createTransactionTable() throws NullPointerException, SQLException
     {
         this.connectDataBase();
 
@@ -51,7 +51,7 @@ public class FixMessageDatabase
         this.closeDataBase();
     }
 //
-    public void saveToDataBase(String fixMessage) throws SQLException
+    public void saveToDataBase(String fixMessage) throws NullPointerException,  SQLException
     {
 
         this.connectDataBase();

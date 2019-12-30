@@ -11,6 +11,7 @@ import za.co.wethinkcode.model.executor.MarketExecutor;
 import za.co.wethinkcode.model.factory.InstrumentFactory;
 import za.co.wethinkcode.model.market.MarketTower;
 import za.co.wethinkcode.model.product.Product;
+import za.co.wethinkcode.model.ConsoleDecorator;
 
 /**
  * Market App!
@@ -22,6 +23,7 @@ public class App {
 	public static List<Product>  products = new ArrayList<Product>();
 	public static List<String>  logMessage = new ArrayList<String>();
 	public static MarketTower	tower = new MarketTower();
+	public static ConsoleDecorator td = new ConsoleDecorator();
 
 	static MarketExecutor market;
 
@@ -40,18 +42,22 @@ public class App {
 			System.out.println(ex.getMessage());
 		}
 		catch (NoSuchElementException e) {
-			System.out.println(market._td.viewMessage("Router Disconnection Detected!","error"));
+			System.out.println(td.viewMessage("Router Disconnection Detected!","error"));
 		}
+		catch (NullPointerException e) {
+			System.out.println("NULLLLLLLLLL");
+		}
+		
     }
 
-    private static void marketStockReader(BufferedReader reader, String fileName) throws IOException, NoSuchElementException {
+    private static void marketStockReader(BufferedReader reader, String fileName) throws NullPointerException, IOException, NoSuchElementException {
 	    String line = null;
 	    while ((line = reader.readLine()) != null) {
 		    fileContents.add(line);
 	    }
 	}
 
-    private static void parseStock() throws StockException {
+    private static void parseStock() throws NullPointerException, StockException {
 	    String[] InstrumentDetails = null; // product type, name, price and qty
 		int lineNumberInFile = 0;
 		
@@ -72,7 +78,10 @@ public class App {
 				throw new StockException("Expected a number", fileContents.get(lineNumberInFile), e);
 			}
 			catch (NoSuchElementException e) {
-				System.out.println(market._td.viewMessage("Router Disconnection Detected!","error"));
+				System.out.println(td.viewMessage("Router Disconnection Detected!","error"));
+			}
+			catch (NullPointerException e) {
+				System.out.println("NULLLLLLLLLL");
 			}
 	    }
     }

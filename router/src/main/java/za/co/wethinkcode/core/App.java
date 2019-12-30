@@ -27,5 +27,8 @@ public class App {
     {
       System.out.println(router._td.viewMessage("Broker | Market Disconnection Detected!","error"));
     }
+    catch (NullPointerException e) {
+			System.out.println("NULLLLLLLLLL");
+    }
   }
 }

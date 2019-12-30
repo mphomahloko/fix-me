@@ -19,13 +19,13 @@ public class FixMessages {
 
     public FixMessages() {}
 
-    public FixMessages(int id, Scanner _in, PrintWriter _out) {
+    public FixMessages (int id, Scanner _in, PrintWriter _out) throws NullPointerException {
         this.id = id;
         this._in = _in;
         this._out = _out;
     }
 
-    public String responceFromMarket(String fixedMsg, String status) {
+    public String responceFromMarket (String fixedMsg, String status) throws NullPointerException {
         fixList = new ArrayList<String>();
         Decoder decode = new Decoder(fixedMsg);
         fixList.add(decode.getReciverID());
@@ -38,7 +38,7 @@ public class FixMessages {
         return FixedMessage1.FixBodyResponse(fixList,"D");
     }
 
-    public String buyOrSell() throws IOException {
+    public String buyOrSell() throws NullPointerException,  IOException {
         fixList = new ArrayList<String>();
         try {
             while (true) {
@@ -78,6 +78,9 @@ public class FixMessages {
                         } catch (java.lang.NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid price format.");
                         }
+                        catch (NullPointerException e) {
+                            System.out.println("NULLLLLLLLLL");
+                        }
                     }
                     fixList.add(line);
                     // status to buy
@@ -96,6 +99,10 @@ public class FixMessages {
                         } catch(java.lang.NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid unit");
                         }
+                        catch (NullPointerException e) {
+                            System.out.println("NULLLLLLLLLL");
+                        }
+                        
                     }
                     fixList.add(line);
                     for(int i =0; i < fixList.size(); i++) {
@@ -114,6 +121,9 @@ public class FixMessages {
                         } catch (java.lang.NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid ID format.");
                         }
+                        catch (NullPointerException e) {
+                            System.out.println("NULLLLLLLLLL");
+                        }
                     }
                     fixList.add(line);
                     while(true) {
@@ -125,6 +135,9 @@ public class FixMessages {
                             break;
                         } catch(java.lang.NumberFormatException VariableDeclaratorId){
                             _out.println("Invalid price format.");
+                        }
+                        catch (NullPointerException e) {
+                            System.out.println("NULLLLLLLLLL");
                         }
                     }
                     fixList.add(line);
@@ -146,7 +159,7 @@ public class FixMessages {
                     }
                     fixList.add(line);
                     for(int i =0; i < fixList.size(); i++) {
-                        fixed += ""+fixList.get(i) + "|";
+                        fixed += ""+fixList.get(i) + "^";
                     }
                 }
                 return FixedMessage1.MessageEncoder(fixList,"D");

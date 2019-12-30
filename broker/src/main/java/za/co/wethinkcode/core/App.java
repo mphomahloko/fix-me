@@ -17,6 +17,12 @@ public class App
         try {
             Broker broker = new Broker();
             broker.run();
-        } catch (IOException | BadLocationException e) {}
+        }
+        catch (IOException | BadLocationException e) {
+            System.out.println("");
+        }
+        catch (NullPointerException e) {
+            System.out.println("NULLLLLLLLLL");
+        }
     }
 }

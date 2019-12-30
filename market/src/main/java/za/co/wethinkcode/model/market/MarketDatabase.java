@@ -12,7 +12,7 @@ public class MarketDatabase
     private ResultSet resultSet     = null;
 
     // this should be placed in a folder where all components can access
-    public void connectDataBase() throws SQLException
+    public void connectDataBase() throws NullPointerException,  SQLException
     {
 
         //JDBC driver name and database URL
@@ -27,7 +27,7 @@ public class MarketDatabase
     }
 
     // this should be placed in a folder where all components can access
-    public void closeDataBase() throws SQLException
+    public void closeDataBase() throws NullPointerException, SQLException
     {
         // STEP 4: Clean-up environment
         this.statement.close();
@@ -36,7 +36,7 @@ public class MarketDatabase
 
     // Table containing all Markets with their products
     //      Note - Let's make it that two markets cannot sell the same product?
-    public void createMarketTable() throws SQLException
+    public void createMarketTable() throws NullPointerException, SQLException
     {
         this.connectDataBase();
 
@@ -54,7 +54,7 @@ public class MarketDatabase
         this.closeDataBase();
     }
 
-    public void saveToDataBase(Product product) throws SQLException
+    public void saveToDataBase(Product product) throws NullPointerException, SQLException
     {
 
         this.connectDataBase();

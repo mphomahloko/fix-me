@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
  *
  */
 public class Router {
-    public static TextDecorator _td = new TextDecorator();
+    public static ConsoleDecorator _td = new ConsoleDecorator();
     private static Set<Integer> _ids = new HashSet<>();
     // The set of all the print writers for all the brokers, used for broadcast.
     private static Set<Map<Integer,PrintWriter>> _brokerWriters = new HashSet<>();
@@ -26,7 +26,7 @@ public class Router {
     private static FixMessageDatabase fixMessageDatabase = new FixMessageDatabase();
 
     private static int _posibleID = 100000;
-    public Router() throws IOException, SQLException, NoSuchElementException {
+    public Router() throws IOException, SQLException, NoSuchElementException, NullPointerException {
         System.out.println(_td.viewMessage("Router is running...","normal"));
 
         fixMessageDatabase.createTransactionTable();
@@ -41,7 +41,7 @@ public class Router {
 /* ********************************* Broker ************************************** */ 
     private static class ManagesBroker implements Runnable {
         @Override
-        public void run() {
+        public void run() throws NullPointerException {
             ExecutorService pool = Executors.newFixedThreadPool(20);
             try (ServerSocket listener = new ServerSocket(5000)) {
                 while (true) {
@@ -60,11 +60,11 @@ public class Router {
         private Scanner _in;
         private PrintWriter _out;
 
-        public ManageBroker(Socket socket) {
+        public ManageBroker(Socket socket) throws NullPointerException {
             this._socket = socket;
         }
 
-        @Override public void run() {
+        @Override public void run() throws NullPointerException {
             try {
                 _in = new Scanner(_socket.getInputStream());
                 _out = new PrintWriter(_socket.getOutputStream(), true);
@@ -86,7 +86,7 @@ public class Router {
                     // 1. get fixed msg
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
-                    System.out.println(fixedMsg);
+                    // System.out.println(fixedMsg);
                     fixMessageDatabase.saveToDataBase(fixedMsg);
                     // 2. send to desired market
                     recieverID = new Decoder(fixedMsg);
@@ -112,6 +112,9 @@ public class Router {
             catch (NoSuchElementException e) {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
+            catch (NullPointerException e) {
+                System.out.println("NULLLLLLLLLL");
+            }
             finally {
 		    if (_ids.contains(_id)) {
 			    _ids.remove(_id);
@@ -124,18 +127,21 @@ public class Router {
             {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
+            catch (NullPointerException e) {
+                System.out.println("NULLLLLLLLLL");
+            }
 	    }
         }
     }
 
 /* ********************************* Market ************************************** */
     private static class ManagesMarket implements Runnable {
-        public ManagesMarket() {
+        public ManagesMarket() throws NullPointerException {
             return ;
         }
 
         @Override
-        public void run() {
+        public void run() throws NullPointerException {
             ExecutorService pool = Executors.newFixedThreadPool(20);
             try (ServerSocket listener = new ServerSocket(5001)) {
                 while (true) {
@@ -146,6 +152,9 @@ public class Router {
             {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
+            catch (NullPointerException e) {
+                System.out.println("NULLLLLLLLLL");
+            }
         }
     }
 
@@ -155,12 +164,12 @@ public class Router {
         private Scanner _in;
         private PrintWriter _out;
 
-        public ManageMarket(Socket socket) {
+        public ManageMarket(Socket socket) throws NullPointerException {
             this._socket = socket;
             return ;
         }
 
-        @Override public void run() {
+        @Override public void run() throws NullPointerException {
             try {
                 _in = new Scanner(_socket.getInputStream());
                 _out = new PrintWriter(_socket.getOutputStream(), true);
@@ -170,7 +179,7 @@ public class Router {
                     }
                 }
 //                _out.println("your market id is: " + _id);
-                _out.println(_td.viewMessage(("[" + _td.blue + "MARKET " + _td.reset + ": " +  _id + "] you market is " + _id),"none"));
+                _out.println(_td.viewMessage(("[" + _td.blue + "MARKET " + _td.reset + ": " +  _id + "] your market ID is " + _id),"none"));
                 System.out.println(_td.viewMessage(("[" + _td.blue + "MARKET " + _td.reset + ": " +  _id + "] has successfully connected..."),"none"));
 
                 Map<Integer,PrintWriter> market = new HashMap<Integer,PrintWriter>();
@@ -180,12 +189,13 @@ public class Router {
                 // sending available products to the broker
                 for (Map<Integer, PrintWriter> writers : _brokerWriters) {
                     for (PrintWriter writer: writers.values()) {
-                        while (_in.hasNextLine()) {    
+                        while (_in.hasNextLine()) {
                             writer.println(_in.nextLine());
                         }
                     }
                 }
             } catch (IOException e) {}
+            catch (NullPointerException e) {}
             catch (NoSuchElementException e)
             {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));

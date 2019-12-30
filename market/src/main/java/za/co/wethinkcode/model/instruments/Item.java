@@ -7,12 +7,12 @@ import za.co.wethinkcode.model.instruments.details.InstrumentDetails;
 public class Item extends Instrument implements Product {
 	private MarketTower _marketTower;
 
-	public Item(String name, InstrumentDetails details) {
+	public Item(String name, InstrumentDetails details) throws NullPointerException {
 		super(name, details);
 		return ;
 	}
 
-	public void updateInstrumentDetails() {
+	public void updateInstrumentDetails() throws NullPointerException {
 		InstrumentDetails dets = _marketTower.processOrder();
 		if (!(this._name.toLowerCase().equals(dets.getName())))
 			return ;
@@ -32,20 +32,20 @@ public class Item extends Instrument implements Product {
 	}
 
 	@Override
-	public void registerMarket(MarketTower marketTower) {
+	public void registerMarket(MarketTower marketTower) throws NullPointerException {
 		this._marketTower = marketTower;
 		this._marketTower.register(this);
 		return ;
 	}
 
 	@Override
-	public String toString() {
-		return this._name + " price: R" + _details.getPrice() + " available items: " + this._details.getQty();
+	public String toString() throws NullPointerException {
+		return "<td>" + this._name + "</td><td>" + _details.getPrice() + "</td><td>" + this._details.getQty() + "</td>";
 	}
 
 	@Override
 	// If iteam was bought set back to false 
-	public boolean itemWasBought() {
+	public boolean itemWasBought() throws NullPointerException {
 		if (this._bought) {
 			this._bought = false;
 			return true;
@@ -53,6 +53,6 @@ public class Item extends Instrument implements Product {
 		return false;
 	}
 	@Override
-	public String instrumentName() { return this._name; }
+	public String instrumentName() throws NullPointerException { return this._name; }
 
 }

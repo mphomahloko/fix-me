@@ -1,7 +1,6 @@
 package za.co.wethinkcode.model;
 
-public class TextDecorator {
-
+public class ConsoleDecorator {
     public String blue = "co:blue";
     public String green = "co:green";
     public String grey = "co:grey";
@@ -11,7 +10,7 @@ public class TextDecorator {
     public String orange = "co:orange";
     public String reset = "co:reset";
 
-    public String viewMessage(String message, String type) {
+    public String viewMessage(String message, String type) throws NullPointerException {
 
         green    = "\033[1;38;2;161;221;112m";
         grey     = "\033[1;38;2;120;120;120m";

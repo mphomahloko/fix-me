@@ -9,7 +9,7 @@ public abstract class Instrument {
 	private static long _idGenerated = 0;
 	protected boolean _bought = false;
 
-	protected Instrument(String name, InstrumentDetails details) {
+	protected Instrument(String name, InstrumentDetails details) throws NullPointerException {
 		this._name = name;
 		this._details = details;
 		this._id = _nextId();

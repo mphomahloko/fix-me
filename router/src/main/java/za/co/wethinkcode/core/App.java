@@ -21,14 +21,14 @@ public class App {
     }
     catch (IOException | SQLException e)
     {
-      System.out.println(e);
+      System.out.println(router._td.viewMessage("Something went wrong...","error"));
     }
     catch (NoSuchElementException e)
     {
       System.out.println(router._td.viewMessage("Broker | Market Disconnection Detected!","error"));
     }
     catch (NullPointerException e) {
-			System.out.println("NULLLLLLLLLL");
+			System.out.println("");
     }
   }
 }

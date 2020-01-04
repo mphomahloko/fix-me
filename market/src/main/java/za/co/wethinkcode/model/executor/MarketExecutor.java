@@ -44,22 +44,16 @@ public class MarketExecutor {
 	}
 
 	private void marketStock() throws NullPointerException {
-		_out.println("[<span style=\"color: rgb(40, 150, 150); font-weight: bold; font-family: Consolas, monaco, monospace;\" >MARKET</span> : " + _marketId + "] Available Stock");
 
-		String formTable = "";
-
-		formTable += "<style> table { width: 100%; border-collapse: collapse; } td, th { padding: 5px 20px 5px 20px;} td { border-collapse: collapse;} th { border-collapse: collapse; background-color: rgb(0, 189, 170); font-weight: bold; font-family: Consolas, monaco, monospace; color: white; } </style>" +
-				"<table>" +
-				"<tr>" + "<th>Item</th>" + "<th>Amount (R)</th>" + "<th>Quantity</th>" + "</tr>";
-
+		String stock = "[" + "co:blue" + "MARKET" + "co:reset" + " : " + _marketId + "] Available Stock";
 
 		for (Product product: App.products) {
-
-			formTable += "<tr>" + product + "</tr>";
+			stock += ("|" + product );
 		}
-		formTable += "</table>";
 
-		_out.println(formTable);
+		stock += "|";
+		_out.println(stock);
+
 		return ;
 	}
 
@@ -78,32 +72,14 @@ public class MarketExecutor {
 			while (true) {
 				while (_in.hasNextLine()) {
 					input = _in.nextLine();
-					displayFixMessage(input);
+					_td.displayFixMessage(input);
 					responce = App.tower.updatedProducts(input);
 					_out.println(responce);
-					displayFixMessage(responce);
+					_td.displayFixMessage(responce);
 					marketStock();
 				}
 			}
 		}
 		finally {}
-	}
-
-	private void displayFixMessage(String message) throws IOException, NullPointerException {
-
-		if (message.contains("8=FIX.4.2")) {
-			if (message.contains("39=")) {
-				System.out.println(ConsoleDecorator.viewMessage("[" + ConsoleDecorator.blue + "MARKET" + ConsoleDecorator.reset + " : " + this._marketId + "] > [" + ConsoleDecorator.purple + "BROKER" + ConsoleDecorator.reset + " : " + message.substring((message.indexOf("56=") + 3), (message.indexOf("56=") + 3 + 6)) + "] " + message, "none"));
-				char fulfilled = message.charAt(message.indexOf("39=") + 3);
-
-				if (fulfilled == '2')
-					System.out.println(ConsoleDecorator.viewMessage("[" + ConsoleDecorator.blue + "MARKET" + ConsoleDecorator.reset + " : " + this._marketId + "] > [" + ConsoleDecorator.purple + "BROKER" + ConsoleDecorator.reset + " : " + message.substring((message.indexOf("56=") + 3), (message.indexOf("56=") + 3 + 6)) + "] request has been " + ConsoleDecorator.green + "ACCEPTED" + ConsoleDecorator.reset, "none"));
-				if (fulfilled == '8')
-					System.out.println(ConsoleDecorator.viewMessage("[" + ConsoleDecorator.blue + "MARKET" + ConsoleDecorator.reset + " : " + this._marketId + "] > [" + ConsoleDecorator.purple + "BROKER" + ConsoleDecorator.reset + " : " + message.substring((message.indexOf("56=") + 3), (message.indexOf("56=") + 3 + 6)) + "] request has been " + ConsoleDecorator.red + "REJECTED" + ConsoleDecorator.reset, "none"));
-			} else
-				System.out.println(ConsoleDecorator.viewMessage("[" + ConsoleDecorator.blue + "MARKET" + ConsoleDecorator.reset + " : " + this._marketId + "] < [" + ConsoleDecorator.purple + "BROKER" + ConsoleDecorator.reset + " : " + message.substring((message.indexOf("49=") + 3), (message.indexOf("49=") + 3 + 6)) + "] " + message, "none"));
-		}
-		else
-			System.out.println(message);
 	}
 }

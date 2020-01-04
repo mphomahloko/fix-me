@@ -63,7 +63,7 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break ;
-                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                        } catch (NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid ID format.");
                         }
                     }
@@ -75,11 +75,11 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break ;
-                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                        } catch (NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid price format.");
                         }
                         catch (NullPointerException e) {
-                            System.out.println("NULLLLLLLLLL");
+                            System.out.println("");
                         }
                     }
                     fixList.add(line);
@@ -96,11 +96,11 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break;
-                        } catch(java.lang.NumberFormatException VariableDeclaratorId) {
+                        } catch(NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid unit");
                         }
                         catch (NullPointerException e) {
-                            System.out.println("NULLLLLLLLLL");
+                            System.out.println("");
                         }
                         
                     }
@@ -118,11 +118,11 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break ;
-                        } catch (java.lang.NumberFormatException VariableDeclaratorId) {
+                        } catch (NumberFormatException VariableDeclaratorId) {
                             _out.println("Invalid ID format.");
                         }
                         catch (NullPointerException e) {
-                            System.out.println("NULLLLLLLLLL");
+                            System.out.println("");
                         }
                     }
                     fixList.add(line);
@@ -133,11 +133,11 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break;
-                        } catch(java.lang.NumberFormatException VariableDeclaratorId){
+                        } catch(NumberFormatException VariableDeclaratorId){
                             _out.println("Invalid price format.");
                         }
                         catch (NullPointerException e) {
-                            System.out.println("NULLLLLLLLLL");
+                            System.out.println("");
                         }
                     }
                     fixList.add(line);
@@ -153,7 +153,7 @@ public class FixMessages {
                         try {
                             Integer.parseInt(line);
                             break;
-                        } catch(java.lang.NumberFormatException VariableDeclaratorId){
+                        } catch(NumberFormatException VariableDeclaratorId){
                             System.out.println("Invalid unit");
                         }
                     }

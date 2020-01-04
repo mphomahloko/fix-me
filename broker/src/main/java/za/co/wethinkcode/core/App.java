@@ -1,6 +1,7 @@
 package za.co.wethinkcode.core;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 import za.co.wethinkcode.model.Broker;
 
@@ -15,16 +16,6 @@ public class App
 {
     public static void main( String[] args )
     {
-//        try {
-//            Broker broker = new Broker();
-//            broker.run();
-//        }
-//        catch (IOException | BadLocationException e) {
-//            System.out.println("");
-//        }
-//        catch (NullPointerException e) {
-//            System.out.println("NULLLLLLLLLL");
-//        }
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override

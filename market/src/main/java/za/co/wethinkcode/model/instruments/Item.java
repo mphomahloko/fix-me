@@ -40,7 +40,7 @@ public class Item extends Instrument implements Product {
 
 	@Override
 	public String toString() throws NullPointerException {
-		return "<td>" + this._name + "</td><td>" + _details.getPrice() + "</td><td>" + this._details.getQty() + "</td>";
+		return this._name + "/" + _details.getPrice() + "/" + this._details.getQty();
 	}
 
 	@Override
@@ -56,3 +56,5 @@ public class Item extends Instrument implements Product {
 	public String instrumentName() throws NullPointerException { return this._name; }
 
 }
+
+

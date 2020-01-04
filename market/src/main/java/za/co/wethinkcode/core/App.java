@@ -36,19 +36,17 @@ public class App {
 			}
 			market = new MarketExecutor();
 			market.run();
-		} catch (StockException ex) {
-			System.out.print(ex.getMessage());
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
+		} 
+		catch (StockException ex) {
+			System.out.println(market._td.viewMessage(ex.getMessage(),"error"));
+		} 
+		catch (IOException ex) {
+			System.out.println(market._td.viewMessage("Something went wrong...","error"));
 		}
 		catch (NoSuchElementException e) {
-			System.out.println(td.viewMessage("Router Disconnection Detected!","error"));
+			System.out.println(market._td.viewMessage("Router Disconnection Detected!","error"));
 		}
-		catch (NullPointerException e) {
-			System.out.println("NULLLLLLLLLL");
-		}
-		
-    }
+  }
 
     private static void marketStockReader(BufferedReader reader, String fileName) throws NullPointerException, IOException, NoSuchElementException {
 	    String line = null;
@@ -81,7 +79,7 @@ public class App {
 				System.out.println(td.viewMessage("Router Disconnection Detected!","error"));
 			}
 			catch (NullPointerException e) {
-				System.out.println("NULLLLLLLLLL");
+				System.out.println("");
 			}
 	    }
     }

@@ -25,6 +25,9 @@ public class ConsoleDecorator {
         String mesType = "";
         String replaceString = message;
 
+        if (type.toLowerCase().contains("error") || type.toLowerCase().contains("normal"))
+            mesType = (type.toLowerCase().contains("error") ? ("[" + red + "ERROR" + reset + "] ") : ("[" + blue + "MARKET" + reset + "] "));
+
         replaceString = replaceString.replace("co:blue", blue);
         replaceString = replaceString.replace("co:grey", grey);
         replaceString = replaceString.replace("co:green", green);
@@ -36,5 +39,27 @@ public class ConsoleDecorator {
 
         return text;
 
+    }
+
+    public void displayFixMessage(String message) throws NullPointerException {
+
+        if (message.contains("8=FIX.4.2")) {
+
+            String receiverValue = message.substring((message.indexOf("56=") + 3), (message.indexOf("56=") + 3 + 6));
+            String senderValue = message.substring((message.indexOf("49=") + 3), (message.indexOf("49=") + 3 + 6));
+
+            if (message.contains("39=")) {
+                System.out.println(viewMessage("[" + blue + "MARKET" + reset + " : " + senderValue + "] > [" + purple + "BROKER" + reset + " : " + receiverValue + "] " + message, "none"));
+                char fulfilled = message.charAt(message.indexOf("39=") + 3);
+
+                if (fulfilled == '2')
+                    System.out.println(viewMessage("[" + blue + "MARKET" + reset + " : " + senderValue + "] > [" + purple + "BROKER" + reset + " : " + receiverValue + "] request has been " + green + "ACCEPTED" + reset, "none"));
+                if (fulfilled == '8')
+                    System.out.println(viewMessage("[" + blue + "MARKET" + reset + " : " + senderValue + "] > [" + purple + "BROKER" + reset + " : " + receiverValue + "] request has been " + red + "REJECTED" + reset, "none"));
+            } else
+                System.out.println(viewMessage("[" + blue + "MARKET" + reset + " : " + receiverValue + "] < [" + purple + "BROKER" + reset + " : " + senderValue + "] " + message, "none"));
+        }
+        else
+            System.out.println(message);
     }
 }

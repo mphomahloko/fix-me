@@ -86,8 +86,11 @@ public class Router {
                     // 1. get fixed msg
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
-                    // System.out.println(fixedMsg);
+
+                    System.out.println(_td.viewMessage("A Transaction has been initialised...","normal"));
+                    _td.displayFixMessage("here: " + fixedMsg);
                     fixMessageDatabase.saveToDataBase(fixedMsg);
+
                     // 2. send to desired market
                     recieverID = new Decoder(fixedMsg);
                     for (Map<Integer, PrintWriter> writers : _marketWriters) {
@@ -99,21 +102,22 @@ public class Router {
                         }
                         // 3. wait for responce from market
                         fixedMsg = _in.nextLine();
+
                         // 4.  send back to broker
                         _out.println(fixedMsg);
-                        System.out.println(fixedMsg);
+
                         
                     }
                 }
             }
             catch (IOException | SQLException ex) {
-                System.out.println(ex);
+                System.out.println(_td.viewMessage("Something went wrong...","error"));
             }
             catch (NoSuchElementException e) {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
             catch (NullPointerException e) {
-                System.out.println("NULLLLLLLLLL");
+                System.out.println("");
             }
             finally {
 		    if (_ids.contains(_id)) {
@@ -128,7 +132,7 @@ public class Router {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
             catch (NullPointerException e) {
-                System.out.println("NULLLLLLLLLL");
+                System.out.println("");
             }
 	    }
         }
@@ -153,7 +157,7 @@ public class Router {
                 System.out.println(_td.viewMessage("Broker | Market Disconnection Detected!","error"));
             }
             catch (NullPointerException e) {
-                System.out.println("NULLLLLLLLLL");
+                System.out.println("");
             }
         }
     }
@@ -190,7 +194,9 @@ public class Router {
                 for (Map<Integer, PrintWriter> writers : _brokerWriters) {
                     for (PrintWriter writer: writers.values()) {
                         while (_in.hasNextLine()) {
-                            writer.println(_in.nextLine());
+                            String line = _in.nextLine();
+                            writer.println(line);
+                            _td.displayFixMessage(line);
                         }
                     }
                 }

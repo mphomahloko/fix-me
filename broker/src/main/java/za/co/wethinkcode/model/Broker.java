@@ -16,9 +16,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.html.HTMLDocument;
 
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class Broker {
+public class Broker implements Runnable {
 	private String _serverAddress = "127.0.0.1";
 	private int _PORT = 5000;
 	private Socket _socket;
@@ -107,6 +108,8 @@ public class Broker {
 			_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			_frame.setSize(850, 400);
 			_frame.setVisible(true);
+
+			new Thread(this).start();
 		} catch (HeadlessException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +132,8 @@ public class Broker {
 		}
     }
 
-    public void run() throws IOException, BadLocationException, NullPointerException {
+	@Override
+    public void run() {
 	    try {
 		    this._socket = new Socket(_serverAddress, _PORT);
 		    this._in = new Scanner(_socket.getInputStream());
@@ -151,8 +155,13 @@ public class Broker {
 	    }
 		catch (NullPointerException e) {
 			System.out.println("NULLLLLLLLLL");
-		}
-	    finally {
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 		    _frame.setVisible(false);
 		    _frame.dispose();
 	    }
@@ -222,17 +231,36 @@ public class Broker {
 	}
 
 	private void appendToJPane(String text) throws IOException, BadLocationException, NullPointerException {
-		try {
-			HTMLDocument doc = (HTMLDocument) _messageArea.getStyledDocument();
-			doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), text);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    HTMLDocument doc = (HTMLDocument) _messageArea.getStyledDocument();
+                    doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), text);
 
-			_messageArea.setEditable(false);
+                    _messageArea.setEditable(false);
 
-			return;
-		}
-		catch (NullPointerException e) {
-			System.out.println("NULLLLLLLLLL");
-		}
+                    return;
+                }
+                catch (NullPointerException e) {
+                    System.out.println("NULLLLLLLLLL");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+//		try {
+//			HTMLDocument doc = (HTMLDocument) _messageArea.getStyledDocument();
+//			doc.insertAfterEnd(doc.getCharacterElement(doc.getLength()), text);
+//
+//			_messageArea.setEditable(false);
+//
+//			return;
+//		}
+//		catch (NullPointerException e) {
+//			System.out.println("NULLLLLLLLLL");
+//		}
 	}
 
 //____________________________________________________________________________________________SWING COMPONENT___________________________________________________________________________________________

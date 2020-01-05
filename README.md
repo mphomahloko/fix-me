@@ -1,9 +1,9 @@
 # Fix-Me
 
-A stock exchange simulation using trading algorithms, networking and socket implementations.
+Fix-me is a stock exchange simulation that implements networking, sockets and the FIX (Financial Information Exchange) trading algorithm. 
 
-The aim of this project is to develop multi-threaded network applications with asynchronous sockets and the java executor framework.
-
+The aim of this project, the last Java project from the 42 / WeThinkCode_ curriculum, is to develop multi-threaded network applications with asynchronous sockets and the java executor framework. 
+ 
 ## Installation
 
 ### Prerequisites
@@ -88,13 +88,12 @@ $ java -jar market/target/market.jar firstMarketStock
 ```
 
 ## Sample
-![Screenshot](./screenshot.png)
----
+![Screenshot](./ScreenShot.png)
 
 ## Authors
 
 - **[Mpho Mahloko](https://github.com/Mahloko)**
-- **[Mohambe Sambo]()**
+- **[Mohambe Sambo](https://github.com/mohambe)**
 - **[Valerie Gongora](https://github.com/ValerieGM)**
 - **[Chanel Letinić](https://github.com/CLetinic)**
 - **[Piet Ragolane]()**

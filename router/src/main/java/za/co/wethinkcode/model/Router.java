@@ -81,14 +81,14 @@ public class Router {
                 // ...
                 FixMessages fix = new FixMessages(_id, _in, _out);
                 Decoder recieverID;
+                String fixedMsg;
                 while (true) {
-                    String fixedMsg;
                     // 1. get fixed msg
                     fixedMsg = fix.buyOrSell();
                     _out.println(fixedMsg);
 
                     System.out.println(_td.viewMessage("A Transaction has been initialised...","normal"));
-                    _td.displayFixMessage("here: " + fixedMsg);
+                    _td.displayFixMessage(fixedMsg);
                     fixMessageDatabase.saveToDataBase(fixedMsg);
 
                     // 2. send to desired market
@@ -100,13 +100,6 @@ public class Router {
                                 writer.println(fixedMsg);
                             }
                         }
-                        // 3. wait for responce from market
-                        fixedMsg = _in.nextLine();
-
-                        // 4.  send back to broker
-                        _out.println(fixedMsg);
-
-                        
                     }
                 }
             }
@@ -191,12 +184,39 @@ public class Router {
                 _marketWriters.add(market);
 
                 // sending available products to the broker
+                String line = _in.nextLine();
                 for (Map<Integer, PrintWriter> writers : _brokerWriters) {
                     for (PrintWriter writer: writers.values()) {
-                        while (_in.hasNextLine()) {
-                            String line = _in.nextLine();
-                            writer.println(line);
-                            _td.displayFixMessage(line);
+                        writer.println(line);
+                        _td.displayFixMessage(line);
+                    }
+                }
+
+                Decoder recieverID;
+                String fixedMsg;
+                while (true) {
+                    fixedMsg = _in.nextLine();
+                    // 2. send to desired broker
+                    recieverID = new Decoder(fixedMsg);
+                    try {
+                        int num = Integer.parseInt(recieverID.getReciverID());
+                        for (Map<Integer, PrintWriter> writers : _brokerWriters) {
+                            for (Integer identifier: writers.keySet()) { 
+                                System.out.println(recieverID.getReciverID());
+                                System.out.println(_brokerWriters.size());
+                                if (num == identifier) {
+                                    PrintWriter writer = writers.get(identifier);
+                                    writer.println(fixedMsg);
+                                    _td.displayFixMessage(fixedMsg);
+                                }
+                            }
+                        }                    
+                    } catch(NumberFormatException ex) {
+                        for (Map<Integer, PrintWriter> writers : _brokerWriters) {
+                            for (PrintWriter writer: writers.values()) {
+                                writer.println(fixedMsg);
+                                _td.displayFixMessage(fixedMsg);
+                            }
                         }
                     }
                 }
